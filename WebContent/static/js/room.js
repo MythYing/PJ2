@@ -1,8 +1,12 @@
 $(document).ready(function(){
+	var cardsPlayed=new Array();
 	// 设置异步为假
     $.ajaxSetup({ async: false });
     getVisibleGameData();
 
+	$(".card").click(function(){
+		
+	})
 });
 
 
@@ -17,7 +21,8 @@ function getVisibleGameData(){
             $("#player-left").text(obj.playerLeftName+obj.playerLeftNumberOfCards);
 			$("#player-right").text(obj.playerRightName+obj.playerRightNumberOfCards);
 			for (const i in obj.cardsInMyHand) {
-				$("#player-i").append('<div class="card"><input type="checkbox" name="vehicle" value="Bike">'+obj.cardsInMyHand[i].suit+obj.cardsInMyHand[i].rank+'</div>');
+				var cardString=obj.cardsInMyHand[i].suit+obj.cardsInMyHand[i].rank;
+				$("#player-i").append('<button class="card" id="'+cardString+'">'+cardString+'</button>');
 			}
 		}  // if
 	}

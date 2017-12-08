@@ -2,6 +2,7 @@ package com.test.json;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.test.model.DB;
 
 /**
  * Servlet implementation class Login
@@ -40,15 +43,45 @@ public class Login extends HttpServlet {
 		// TODO Auto-generated method stub
 		// 输出流
 		PrintWriter out = response.getWriter();		
-		String pidStr = request.getParameter("pid");
-		int pid=Integer.parseInt(pidStr);		
+		String name = request.getParameter("name");
+		String password = request.getParameter("password");
+		System.out.println(name);
+		// 获取pid
+		int status=-1;
+		int pid=-1;
+		try {
+			pid = DB.getId(name);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if (pid==-1) {
+			status=-1;			
+		}else {
+			// 获取数据库的密码
+			String passwordDB="";
+			try {
+				passwordDB = DB.getPassword(pid);
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+			if(password==passwordDB) {
+				Cookie pidCookie =new Cookie("pid", String.valueOf(pid));
+				pidCookie.setMaxAge(7200);
+				response.addCookie(pidCookie);
+				status=pid;
+			}					
+		}
 		
-		Cookie pidCookie =new Cookie("pid", pidStr);
-		pidCookie.setMaxAge(7200);
-		response.addCookie(pidCookie);
-		
-		out.print(pid);
+		out.print(status);
 		out.flush();
+		
+		
+
+		
+		
+		
+		
 	}
 
 }

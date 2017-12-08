@@ -3,12 +3,18 @@ $(document).ready(function(){
 	$("#login-button").click(function(){
 		$.post("Login",
 			{
-				pid: $("#login-pid").val()
+				name:$("#name").val(),
+				password: md5($("#password").val())
 			},
 			function (data, status) {
 				if (status == "success") {
-					alert("登陆成功，欢迎您，" + data);
-					$(window).attr('location','hall.html');
+					if (data!=-1) {
+						alert("登陆成功，欢迎您，" + data);
+						$(window).attr('location','hall.html');
+					}else{
+						alert("登录失败！");
+					}
+					
 				}  // if
 			}
 		);//post       
