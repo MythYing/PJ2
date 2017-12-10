@@ -26,7 +26,7 @@ public class Deal {
 	public static int deal(Player[] p) {
 		ArrayList<Card> cards = new ArrayList<Card>();
 		String[] ranks = { "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A", "2" };
-		String[] suits = { "方块", "梅花", "红桃", "黑桃" };
+		String[] suits = { "diamonds", "clubs", "hearts", "spades" };
 
 		for (int i = 0; i < 52; i++) {
 			cards.add(new Card(ranks[i % 13], suits[i / 13]));
