@@ -1,17 +1,50 @@
-#player-i{
-    height: 316px;
-    margin: 0 auto;
+body{
+    width: 100%;
+    height: 900px;
+    background-image: url(/PJ2/static/images/table.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
+#player-i{
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+}
+
+#cards{
+    height: 256px;
+    margin: 0 auto;
+}
 
 .card{
     display: inline-block;
     width: 50px;
     height: 256px;
     position: relative;
-    top: 60px;
+    top: 0px;
     border: none;
     background: transparent;
-    border-radius: 4px;
     outline: none;
+}
+.card>img{
+    width: 172px;
+    height: 256px;
+}
+
+#my-turn-module{
+    width: 400px;
+    margin: 0 auto;
+}
+
+#my-turn-module>button{
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    width: 80px;
+    height: 40px;
+    border: none;
+    background-color: #4CAF50;
+    border-radius: 6px;
 }
