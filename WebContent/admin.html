@@ -7,9 +7,17 @@
     <title>Document</title>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script>
-        $("#turn-on-system").click(function(){
-            $.post("TurnOn",{});
-        })
+        $(document).ready(function(){
+            $("#turn-on-system").click(function(){
+                $.post("TurnOn",
+                {
+                    turnOn: true,
+                },
+                function(data, status){
+
+                });
+            });
+        });
     </script>
 </head>
 <body>

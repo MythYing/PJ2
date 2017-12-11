@@ -32,8 +32,10 @@ function getVisibleGameData(){
 	function (data, status) {
 		if (status == "success") {
             var obj=JSON.parse(data);           
-            $("#player-left").text(obj.playerLeftName+obj.playerLeftNumberOfCards);
-			$("#player-right").text(obj.playerRightName+obj.playerRightNumberOfCards);	
+			$("#player-left>.name").text(obj.playerLeftName);
+			$("#player-left>.number-of-cards").text(obj.playerLeftNumberOfCards);
+			$("#player-right>.name").text(obj.playerRightName);	
+			$("#player-right>.number-of-cards").text(obj.playerRightNumberOfCards);
 			$("#cards").css("width",(obj.cardsInMyHand.length*50+122).toString()+"px");
 			for (const i in obj.cardsInMyHand) {
 				var cardId=obj.cardsInMyHand[i].suit+obj.cardsInMyHand[i].rank;

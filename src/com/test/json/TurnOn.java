@@ -30,9 +30,9 @@ public class TurnOn extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		DB db=new DB();
-		Common common=new Common();
 		System.out.println("正在启动PJ2...");
+		Common common=new Common();
+		
 	}
 
 }

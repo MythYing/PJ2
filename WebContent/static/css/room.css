@@ -7,11 +7,52 @@ body{
     background-position: center;
 }
 
+#player-left{
+    position: absolute;
+    left: 160px;
+    top: 100px;
+}
+
+#player-right{
+    position: absolute;
+    right: 160px;
+    top: 100px;   
+}
+
+.icon{
+    background-color: grey;
+    width: 160px;
+    height: 160px;
+    border-radius: 80px;
+    border: 4px solid white;
+    overflow: hidden;
+}
+.name{
+    color: green;
+    font-size: 20px;
+    font-weight: bolder;
+    text-align: center;
+}
+
 #player-i{
     width: 100%;
     position: absolute;
     bottom: 0px;
 }
+
+#time-left{
+    color: white;
+    font-size: 30px;
+    width: 200px;
+    margin: 0 auto 100px auto;
+    text-align: center;
+}
+
+#time{
+    display: inline-block;
+    width: 38px;
+}
+
 
 #cards{
     height: 256px;
@@ -34,8 +75,8 @@ body{
 }
 
 #my-turn-module{
-    width: 400px;
-    margin: 0 auto;
+    width: 240px;
+    margin: 40px auto 140px auto;
 }
 
 #my-turn-module>button{
@@ -47,4 +88,12 @@ body{
     border: none;
     background-color: #4CAF50;
     border-radius: 6px;
+}
+
+#play-card{
+    float: left;
+}
+
+#pass{
+    float: right;
 }

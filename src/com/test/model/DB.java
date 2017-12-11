@@ -4,12 +4,11 @@ import java.sql.*;
 
 public class DB {
 	private static final String DRIVER = "com.mysql.jdbc.Driver"; //数据库的驱动信息	
-	private static final String USERNAME = "root"; //数据库的用户名
-	private static final String PASSWORD = "MythYing"; //数据库的密码
+	private static final String USERNAME = "pj2"; //数据库的用户名
+	private static final String PASSWORD = "pj2pj2pj2"; //数据库的密码
 	private static final String URL = "jdbc:mysql://111.230.130.50:3306/pj2";//访问数据库的地址
 	
-	private static Connection conn;
-	static {
+	private static Connection connect(){
 		// 注册驱动
 		try {
 			Class.forName(DRIVER);
@@ -18,15 +17,18 @@ public class DB {
 		}
 		// 连接数据库
 		try {
-			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 			System.out.println("数据库连接成功");
+			return conn;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("数据库连接失败");
+			return null;
 		}
 	}
 	
 	public  static int register(String name,String password) throws SQLException{
+		Connection conn=connect();
 		String sql = "insert into user(name,password) values(?,?)";
 		PreparedStatement ps = conn.prepareStatement(sql);
 		ps.setString(1,name);
@@ -36,6 +38,7 @@ public class DB {
 	}
 	
 	public static String getUserName(int pid) throws SQLException {
+		Connection conn=connect();
 		String sql = "select name from user where id = ?";
 		PreparedStatement ps = conn.prepareStatement(sql);
 		ps.setInt(1, pid);
@@ -45,10 +48,11 @@ public class DB {
 	}
 	
 	public static int getId(String name) throws SQLException  {
-		String sql = "select id from user where name = ? "; 
+		Connection conn=connect();
+		String sql = "select id from user where name = ?"; 
 		PreparedStatement ps = conn.prepareStatement(sql);
 		ps.setString(1,name);
-		ResultSet rs = ps.executeQuery();  //执行sql并赋值给rs
+		ResultSet rs = ps.executeQuery();
 		if(rs.next()) {
 			return rs.getInt(1);
 		}
@@ -57,7 +61,8 @@ public class DB {
 		}
 	}
 	
-	public static String getPassword(int id) throws SQLException  {//String name
+	public static String getPassword(int id) throws SQLException  {
+		Connection conn=connect();
 		String sql = "select password from user where id = ? "; 
 		PreparedStatement ps = conn.prepareStatement(sql);
 		ps.setInt(1,id);
