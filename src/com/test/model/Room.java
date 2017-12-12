@@ -9,6 +9,7 @@ public class Room{
 	public Card lightCard;
 	public int turn = -1;
 	public CardsPlayed maxCards;
+	public int maxPlayer = -1;
 	
 	public Room(int[] p) {
 		System.out.println("Room类已创建");

@@ -6,6 +6,7 @@ public class VisibleGameData {
 	public int rid;
 	public int turn;
 	public String[] maxCards;
+	public int maxPlayer;
 	
 	public String[] cardsInMyHand;
 	
@@ -28,7 +29,10 @@ public class VisibleGameData {
 		
 		rid=Common.getRid(pid);
 		turn=Common.rooms[rid].turn;
-		maxCards=Cards.toStringArray(Common.rooms[rid].maxCards.cards);
+		maxPlayer=Common.rooms[rid].maxPlayer;
+		if (maxPlayer!=-1) {
+			maxCards=Cards.toStringArray(Common.rooms[rid].maxCards.cards);
+		}
 		
 		myId=pid;
 		playerLeftId=Common.rooms[rid].pid[leftRoomIndex];

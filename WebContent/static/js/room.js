@@ -47,12 +47,18 @@ function getVisibleGameData(){
 			$("#player-right>.name").text(obj.playerRightName);	
 			$("#player-right>.number-of-cards").text(obj.playerRightNumberOfCards);
 			$("#cards").css("width",(obj.cardsInMyHand.length*50+122).toString()+"px");
-			for (const card in obj.cardsInMyHand) {
-				var cardElement=getCardElement(card);
+			for (const i in obj.cardsInMyHand) {
+				var cardElement=getCardElement(obj.cardsInMyHand[i]);
 				$("#cards").append(cardElement);
 			}
-			if (obj.myRoomIndex==obj.turn) {
-				
+			if (obj.myRoomIndex!=obj.turn) {
+				$("#play-card").attr("disabled", "disabled");
+				$("#pass").attr("disabled", "disabled");
+				$("#time-left").hide();
+			}else{
+				$("#play-card").removeAttr("disabled");
+				$("#pass").removeAttr("disabled");
+				$("#time-left").show();
 			}
 		}  // if
 	}

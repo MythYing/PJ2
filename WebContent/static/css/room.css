@@ -79,6 +79,17 @@ body{
     margin: 40px auto 140px auto;
 }
 
+#my-turn-module>button[disabled=disabled] {
+    background-color: #265728;
+    opacity: 0.6;
+    font-size: 16px;
+    box-shadow:0px 0px 20px #000000;
+}
+
+#my-turn-module>button[disabled=disabled]:hover {
+    font-size: 16px;
+}
+
 #my-turn-module>button{
     color: white;
     font-size: 16px;
@@ -88,6 +99,17 @@ body{
     border: none;
     background-color: #4CAF50;
     border-radius: 6px;
+    outline: none;
+}
+#my-turn-module>button:hover {
+    background-color: #265728;
+    font-size: 18px;
+    transition: 0.2s;
+    cursor: pointer;
+    box-shadow:0px 0px 20px #000000;
+}
+#my-turn-module>button:active{
+    transform: translateY(3px);
 }
 
 #play-card{
