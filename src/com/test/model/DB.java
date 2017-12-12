@@ -18,11 +18,9 @@ public class DB {
 		// 连接数据库
 		try {
 			Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-			System.out.println("数据库连接成功");
 			return conn;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("数据库连接失败");
 			return null;
 		}
 	}

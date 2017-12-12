@@ -21,7 +21,6 @@ public class Common {
 		System.out.println("rooms初始化完毕");
 	}
 	
-	// 剩余可用房间号队列
 	public static Queue<Integer> matchingPlayers = new LinkedList<Integer>(); // 正在匹配对局的玩家
 	public static Map<Integer, PlayerPosition> playerPositionMap = new HashMap<Integer, PlayerPosition>(); // 玩家位置映射
 	
@@ -39,6 +38,13 @@ public class Common {
 		return status;
 	}
 
+	public static int getRid(int pid) {
+		if (playerPositionMap.containsKey(pid)) {
+			return playerPositionMap.get(pid).rid;
+		}else {
+			return -1;
+		}
+	}
 	public static void matchGame(int pid) {
 		if (!matchingPlayers.contains(pid)) {
 			matchingPlayers.offer(pid);
@@ -66,5 +72,15 @@ public class Common {
 		if (matchingPlayers.contains(pid)) {
 			matchingPlayers.remove(pid);
 		}
+	}
+	
+	public static CardsPlayed getMaxCards(int pid) {
+		int rid = getRid(pid);
+		return rooms[rid].maxCards;
+	}
+	
+	public static Player getPlayer(int pid) {
+		PlayerPosition position=playerPositionMap.get(pid);
+		return rooms[position.rid].players[position.roomIndex];
 	}
 }

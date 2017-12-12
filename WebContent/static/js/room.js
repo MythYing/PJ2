@@ -3,25 +3,35 @@ $(document).ready(function(){
 	// 设置异步为假
     $.ajaxSetup({ async: false });
     getVisibleGameData();
-
+	// 点击牌
 	$(".card").click(function(){
 		var cardId=$(this).attr("id");
 		var cardIndex=cardsPlayed.indexOf(cardId);
-		// 点击出来
-		if (cardIndex==-1) {
+		if (cardIndex==-1) {	// 牌没被选中
 			$(this).css("top","-60px");
 			cardsPlayed.push(cardId);
-		}else{
+		}else{					// 牌已经被选中了
 			cardsPlayed.splice(cardIndex,1);
 			$(this).css("top","0px");
 		}
-		
 	})
+	// 出牌
+	$("#play-card").click(function(){
+		$.post("PlayCards",
+		{
+			pid: $.cookie("pid"),
+			cardsPlayed: cardsPlayed
+		},
+		function(data, status){
+
+		})
+	})
+
 });
 
-function getCardElement(cardId) {
-	var cardElement='<button class="card" id="{cardId}"><img src="static/images/cards/{cardId}.png" /></button>';
-	cardElement=cardElement.replace(/\{cardId\}/g,cardId);
+function getCardElement(card) {
+	var cardElement='<button class="card" id="{card}"><img src="static/images/cards/{card}.png" /></button>';
+	cardElement=cardElement.replace(/\{card\}/g,card);
 	return cardElement;
 }
 function getVisibleGameData(){
@@ -37,10 +47,12 @@ function getVisibleGameData(){
 			$("#player-right>.name").text(obj.playerRightName);	
 			$("#player-right>.number-of-cards").text(obj.playerRightNumberOfCards);
 			$("#cards").css("width",(obj.cardsInMyHand.length*50+122).toString()+"px");
-			for (const i in obj.cardsInMyHand) {
-				var cardId=obj.cardsInMyHand[i].suit+obj.cardsInMyHand[i].rank;
-				var cardElement=getCardElement(cardId);
+			for (const card in obj.cardsInMyHand) {
+				var cardElement=getCardElement(card);
 				$("#cards").append(cardElement);
+			}
+			if (obj.myRoomIndex==obj.turn) {
+				
 			}
 		}  // if
 	}
