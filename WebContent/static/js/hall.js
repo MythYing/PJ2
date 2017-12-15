@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
 	// 设置异步为假
 	$.ajaxSetup (
 		{
@@ -42,6 +43,11 @@ $(document).ready(function(){
 	$("#logout-button").click(function(){
 		$.removeCookie("pid");
 		$(window).attr('location','index.html');
+	})
+
+	$("nav>li").click(function(){
+		var index = $("nav").index($(this));
+		$("#content>div").eq(index).show().siblings().hide();
 	})
 });
 

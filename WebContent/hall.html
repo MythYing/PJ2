@@ -9,21 +9,36 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="static/js/lib/jquery.cookie.js"></script>
     <script src="static/js/hall.js"></script>
+    <link rel="stylesheet" href="static/css/common.css">
+    <link rel="stylesheet" href="static/css/hall.css">
 </head>
 
 <body>
-    <div id="game-hall">
+    <header>
         <h1>游戏大厅</h1>
         <div id="user-info">
             <p id="pid"></p>
         </div>
-        
-        <div id="matching-info"></div>  
-        <button id="cancel-match">取消匹配</button>
-        <button id="match-game">寻找对局</button>
         <button id="logout-button">退出登录</button>
-        <p id="match-status"></p>
+        <nav>
+            <li>匹配大厅</li>
+            <li>游戏记录</li>
+            <li>商店</li>
+            <li>背包</li>
+        </nav>
+    </header>
+    <div id="content">
+        <div id="match"> 
+            <div id="matching-info"></div>  
+            <button id="cancel-match">取消匹配</button>
+            <button id="match-game">寻找对局</button>
+            <p id="match-status"></p>
+        </div>
+        <div id="game-history">游戏记录</div>
+        <div id="shop">商店</div>
+        <div id="bag">我的背包</div>
     </div>
+   
 </body>
 
 </html>
