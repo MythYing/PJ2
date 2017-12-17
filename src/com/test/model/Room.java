@@ -8,7 +8,7 @@ public class Room{
 	public Player[] players= new Player[3];
 	public Card lightCard;
 	public int turn = -1;
-	public CardsPlayed maxCards;
+	public Cards maxCards;
 	public int maxPlayer = -1;
 	
 	public Room(int[] p) {
@@ -55,7 +55,7 @@ public class Room{
 		}
 		
 		for(int i=0;i<=2;i++) {
-			Collections.sort(p[i].cardsInHand, new CardComparator());
+			Collections.sort(p[i].cardsInHand);
 		}
 
 	}

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.test.model.CardsPlayed;
+import com.test.model.Cards;
 
 /**
  * Servlet implementation class PlayCards
@@ -35,8 +35,8 @@ public class PlayCards extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String pidStr = request.getParameter("pid");
 		int pid = Integer.parseInt(pidStr);
-		String[] cardsString = request.getParameterValues("cardsPlayed[]");
-		CardsPlayed cardsPlayed = new CardsPlayed(cardsString);
+		String[] cardsStringArray = request.getParameterValues("cardsPlayed[]");
+		Cards cardsPlayed = new Cards(cardsStringArray);
 		// 如果合法
 	}
 

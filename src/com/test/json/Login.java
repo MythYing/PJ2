@@ -54,15 +54,18 @@ public class Login extends HttpServlet {
 			String passwordDB = "";
 			try {
 				passwordDB = DB.getPassword(pid);
+				if (password.equals(passwordDB)) {
+					status = pid;
+					Cookie pidCookie = new Cookie("pid", String.valueOf(pid));
+					pidCookie.setMaxAge(7200);
+					response.addCookie(pidCookie);
+					Cookie nameCookie = new Cookie("name", String.valueOf(DB.getUserName(pid)));
+					nameCookie.setMaxAge(7200);
+					response.addCookie(nameCookie);
+				}
 			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			if (password.equals(passwordDB)) {
-				status = pid;
-				Cookie pidCookie = new Cookie("pid", String.valueOf(pid));
-				pidCookie.setMaxAge(7200);
-				response.addCookie(pidCookie);
-			}
+				// e.printStackTrace();
+			}	
 		}
 		out.print(status);
 		out.flush();

@@ -4,8 +4,15 @@ $(document).ready(function(){
 	$.ajaxSetup (
 		{
 			async: false
-		});
+		}
+	);
+	$("#content>div").eq(0).show().siblings().hide();
 	gameHallPage();
+	$("nav>ul>li").click(function(){
+		var index = $("nav>ul>li").index($(this));
+		$("#content>div").eq(index).show().siblings().hide();
+	})
+
 	$("#pid").text("欢迎您，"+$.cookie("pid"));
 
 	//  寻找对局
@@ -45,10 +52,6 @@ $(document).ready(function(){
 		$(window).attr('location','index.html');
 	})
 
-	$("nav>li").click(function(){
-		var index = $("nav").index($(this));
-		$("#content>div").eq(index).show().siblings().hide();
-	})
 });
 
 function refreshStatusOnce(){

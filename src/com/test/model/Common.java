@@ -38,13 +38,6 @@ public class Common {
 		return status;
 	}
 
-	public static int getRid(int pid) {
-		if (playerPositionMap.containsKey(pid)) {
-			return playerPositionMap.get(pid).rid;
-		}else {
-			return -1;
-		}
-	}
 	public static void matchGame(int pid) {
 		if (!matchingPlayers.contains(pid)) {
 			matchingPlayers.offer(pid);
@@ -68,19 +61,43 @@ public class Common {
 		}
 		
 	}
+	
+	public static int getRid(int pid) {
+		if (playerPositionMap.containsKey(pid)) {
+			return playerPositionMap.get(pid).rid;
+		}else {
+			return -1;
+		}
+	}
 	public static void cancelMatch(int pid) {
 		if (matchingPlayers.contains(pid)) {
 			matchingPlayers.remove(pid);
 		}
 	}
 	
-	public static CardsPlayed getMaxCards(int pid) {
+	public static Cards getMaxCards(int pid) {
 		int rid = getRid(pid);
 		return rooms[rid].maxCards;
 	}
-	
+	/**
+	 * 获取Player对象
+	 * @param pid
+	 * @return
+	 */
 	public static Player getPlayer(int pid) {
 		PlayerPosition position=playerPositionMap.get(pid);
 		return rooms[position.rid].players[position.roomIndex];
+	}
+	
+	/** 
+	 * 返回玩家所在房间的最大牌用户
+	 * @param pid
+	 * @return
+	 */
+	 
+	public static int getMaxPlayer(int pid) {
+		int rid=getRid(pid);
+		int maxPlayer=rooms[rid].maxPlayer;
+		return maxPlayer;
 	}
 }

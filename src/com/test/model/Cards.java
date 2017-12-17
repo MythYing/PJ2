@@ -3,6 +3,14 @@ package com.test.model;
 import java.util.ArrayList;
 
 public class Cards {
+	public String type;
+	public ArrayList<Card> cards=new ArrayList<>();
+	
+	public Cards(String[] cards) {
+		this.cards=Cards.toArrayList(cards);
+		// 牌型...
+	}
+	
 	public static ArrayList<Card> toArrayList(String[] cardsStringArray) {
 		ArrayList<Card> cardsArrayList=new ArrayList<>();
 		for (String card : cardsStringArray) {
