@@ -89,6 +89,10 @@ public class Common {
 		return rooms[position.rid].players[position.roomIndex];
 	}
 	
+	public static Room getRoom(int pid) {
+		int rid=getRid(pid);
+		return rooms[rid];
+	}
 	/** 
 	 * 返回玩家所在房间的最大牌用户
 	 * @param pid
@@ -100,4 +104,27 @@ public class Common {
 		int maxPlayer=rooms[rid].maxPlayer;
 		return maxPlayer;
 	}
+	
+	public static int getTurn(int pid) {
+		int rid=getRid(pid);
+		int turn=rooms[rid].turn;
+		return turn;
+	}
+	
+	public static void nextTurn(int pid) {
+		if (playerPositionMap.containsKey(pid)) {
+			int index = playerPositionMap.get(pid).roomIndex;
+			index=(index+1)%3;
+			Common.getRoom(pid).turn=Common.getRoom(pid).pid[index];
+		}
+	}
+	public static void gameOverRelease(int pid) {
+		int rid = getRid(pid);
+		playerPositionMap.remove(getRoom(pid).pid[0]);
+		playerPositionMap.remove(getRoom(pid).pid[1]);
+		playerPositionMap.remove(getRoom(pid).pid[2]);
+		rooms[rid]=null;
+		roomAvailable.add(rid);
+	}
+	
 }

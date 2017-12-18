@@ -7,9 +7,9 @@ public class Room{
 	public int[] pid=new int[3];
 	public Player[] players= new Player[3];
 	public Card lightCard;
-	public int turn = -1;
+	public int turn = -1;	//pid
 	public Cards maxCards;
-	public int maxPlayer = -1;
+	public int maxPlayer = -1;		//pid
 	
 	public Room(int[] p) {
 		System.out.println("Room类已创建");
@@ -49,7 +49,7 @@ public class Room{
 			// System.out.println("发牌-->玩家"+i % 3);
 			if (i==lightCardIndex) {
 				System.out.println("****************"+cards.get(i).suit + cards.get(i).rank + "给了playerInRoomIndex" + i % 3+"，该用户第一个出牌");
-				this.turn =i % 3;
+				this.turn =pid[i % 3];
 			}
 			p[i % 3].cardsInHand.add(cards.get(i));
 		}
