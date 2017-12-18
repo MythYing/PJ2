@@ -19,4 +19,7 @@ $(document).ready(function(){
 			}
 		);//post       
 	}) // click
+	$("#register-button").click(function(){
+		$(window).attr('location','register.html');
+	})
 });
