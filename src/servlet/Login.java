@@ -1,4 +1,4 @@
-package com.test.json;
+package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,8 +10,10 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
-import com.test.model.DB;
+import model.DB;
 
 /**
  * Servlet implementation class Login
@@ -55,13 +57,9 @@ public class Login extends HttpServlet {
 			try {
 				passwordDB = DB.getPassword(pid);
 				if (password.equals(passwordDB)) {
+					HttpSession session=request.getSession();
+					session.setAttribute("pid", pid);
 					status = pid;
-					Cookie pidCookie = new Cookie("pid", String.valueOf(pid));
-					pidCookie.setMaxAge(7200);
-					response.addCookie(pidCookie);
-					Cookie nameCookie = new Cookie("name", String.valueOf(DB.getUserName(pid)));
-					nameCookie.setMaxAge(7200);
-					response.addCookie(nameCookie);
 				}
 			} catch (SQLException e) {
 				// e.printStackTrace();

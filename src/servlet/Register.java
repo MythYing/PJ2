@@ -1,7 +1,6 @@
-package com.test.json;
+package servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -10,20 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-import com.test.model.VisibleGameData;
+import model.DB;
 
 /**
- * Servlet implementation class GetVisibleGameData
+ * Servlet implementation class Register
  */
-@WebServlet("/GetVisibleGameData")
-public class GetVisibleGameData extends HttpServlet {
+@WebServlet("/Register")
+public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetVisibleGameData() {
+    public Register() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,25 +31,17 @@ public class GetVisibleGameData extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.setCharacterEncoding("utf-8");
-		PrintWriter out = response.getWriter();
+		// PrintWriter out = response.getWriter();	
 		
-		String pidStr = request.getParameter("pid");		
-		int pid=Integer.parseInt(pidStr);				
-		
-		VisibleGameData data=null;
+		String name = request.getParameter("name");
+		String password = request.getParameter("password");
+		System.out.println(name);
 		try {
-			data = new VisibleGameData(pid);
+			DB.register(name, password);
 		} catch (SQLException e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
 		}
-		
-		Gson gson=new Gson();
-		String json=gson.toJson(data);
-		out.print(json);
-		out.flush();
-		
 	}
 
 }

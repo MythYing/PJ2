@@ -22,4 +22,9 @@ $(document).ready(function(){
 	$("#register-button").click(function(){
 		$(window).attr('location','register.html');
 	})
+	$("input").keydown(function(event){
+		if (event.which==13) {
+			$("#login-button").click();
+		}	
+	  });
 });

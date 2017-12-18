@@ -1,4 +1,4 @@
-package com.test.model;
+package model;
 
 public class Card implements Comparable<Card>{
 	public String rank;

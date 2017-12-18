@@ -1,4 +1,4 @@
-package com.test.model;
+package model;
 
 import java.util.ArrayList;
 /**
@@ -49,7 +49,9 @@ public class Rules {
 
 	// 将服务端传来的牌转为int[]类型
 	private static int[] cardToInt(ArrayList<Card> cards) {
-		
+		if (cards==null) {
+			return new int[0];
+		}
 		int[] card = new int[cards.size()];
 		for (int i = 0; i < cards.size(); i++) {			
 			card[i] = rankToInt(cards.get(i).rank);

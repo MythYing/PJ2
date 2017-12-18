@@ -13,42 +13,31 @@ $(document).ready(function(){
 		$("#content>div").eq(index).show().siblings().hide();
 	})
 
-	$("#pid").text("欢迎您，"+$.cookie("pid"));
+	$("#pid").text("欢迎您");
 
 	//  寻找对局
 	$("#match-game").click(function(){
-		if($.cookie("pid")==null){
-			alert("登录信息失效，请重新登录");
-		}else{
-			$.post("MatchGame",
-				{
-					pid:$.cookie("pid"),
-				},
-				function(data,status){
-				}
-			);//post 
-			matchingPage();
-		}
-		
+		$.post("MatchGame",
+			{
+			},
+			function(data,status){
+			}
+		);//post 
+		matchingPage();		
 	}) // click
 	$("#cancel-match").click(function(){
-		if($.cookie("pid")==null){
-			alert("登录信息失效，请重新登录");
-		}else{
-			$.post("CancelMatch",
-				{
-					pid:$.cookie("pid"),
-				},
-				function(data,status){
-				}
-			);//post 
-			gameHallPage();
-		}
+		$.post("CancelMatch",
+			{
+			},
+			function(data,status){
+			}
+		);//post 
+		gameHallPage();
 		
 	}) // click
 	// 退出登录
 	$("#logout-button").click(function(){
-		$.removeCookie("pid");
+		$.post("Logout", {});
 		$(window).attr('location','index.html');
 	})
 
@@ -56,36 +45,38 @@ $(document).ready(function(){
 
 function refreshStatusOnce(){
 	var obj=new Object();
-	$.post("GetStatus",
-	{
-		pid: $.cookie("pid")
-	},
+	$.post("GetStatus", {},
 	function (data, status) {
 		if (status == "success") {
 			obj=JSON.parse(data);
+			if (obj.status=="NotLogined") {
+				alert("您还未登陆，正在转跳至登录页面！")
+				$(window).attr('location','login.html');
+			}else if (status == "success") {
+				obj=JSON.parse(data);
 
-			if(obj.status=="Gaming"){
-				// 转跳游戏界面
-				$(window).attr('location','room.html');
-			}else if (obj.status=="Matching") {	
-				matchingPage();
-			}
-		}  // if
+				if(obj.status=="Gaming"){
+					// 转跳游戏界面
+					$(window).attr('location','room.html');
+				}else if (obj.status=="Matching") {	
+					matchingPage();
+				}
+			}  // if
+		}
 	}
 	); // post
 }
 
 function refreshStatus(){
 	var obj=new Object();
-	$.post("GetStatus",
-	{
-		pid: $.cookie("pid")
-	},
+	$.post("GetStatus",	{},
 	function (data, status) {
 		if (status == "success") {
 			obj=JSON.parse(data);
-
-			if(obj.status=="Gaming"){
+			if (obj.status=="NotLogined") {
+				alert("您还未登陆，正在转跳至登录页面！")
+				$(window).attr('location','login.html');
+			}else if(obj.status=="Gaming"){
 				// 转跳游戏界面
 				$(window).attr('location','room.html');
 			}else if (obj.status=="Matching") {	

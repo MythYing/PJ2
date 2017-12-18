@@ -1,15 +1,20 @@
-package com.test.model;
+package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import javax.websocket.Session;
+
+import websocket.RoomDataInform;
 
 public class Room{
 	public int[] pid=new int[3];
 	public Player[] players= new Player[3];
 	public Card lightCard;
 	public int turn = -1;	//pid
-	public Cards maxCards;
+	public Cards maxCards=new Cards(new String[0]);
 	public int maxPlayer = -1;		//pid
+	public  Session[] playerSessions = new Session[3];
 	
 	public Room(int[] p) {
 		System.out.println("Room类已创建");
@@ -19,7 +24,7 @@ public class Room{
 			this.players[i]=new Player(p[i]);
 		}
 		deal(players);
-		System.out.println("pid="+p[turn]+"第一个出牌");
+		System.out.println("pid="+turn+"第一个出牌");
 	}
 	// 发牌
 	public void deal(Player[] p) {

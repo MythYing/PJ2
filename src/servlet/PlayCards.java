@@ -1,4 +1,4 @@
-package com.test.json;
+package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,10 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.test.model.Cards;
-import com.test.model.Common;
-import com.test.model.Rules;
-import com.test.model.StatusType;
+
+import model.Cards;
+import model.Common;
+import model.Rules;
+import model.StatusType;
+import websocket.RoomDataInform;
 
 /**
  * Servlet implementation class PlayCards
@@ -37,8 +39,8 @@ public class PlayCards extends HttpServlet {
 		// TODO Auto-generated method stub
 		// 输出流
 		PrintWriter out = response.getWriter();
-		String pidStr = request.getParameter("pid");
-		int pid = Integer.parseInt(pidStr);
+		int pid=(int) request.getSession().getAttribute("pid");
+		
 		String[] cardsStringArray = request.getParameterValues("cardsPlayed[]");
 		Cards cardsPlayed = new Cards(cardsStringArray);
 		StatusType status = new StatusType();
@@ -56,8 +58,10 @@ public class PlayCards extends HttpServlet {
 					Common.gameOverRelease(pid);			
 					status.status="GameOver";
 					status.data=pid;
+					
 				}else {
 					status.status="SuccessfulPlay";
+					RoomDataInform.sendMessage(pid, "Refresh");
 				}
 			}else {
 				status.status="FailedPlay";

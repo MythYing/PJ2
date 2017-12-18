@@ -1,4 +1,4 @@
-package com.test.model;
+package model;
 
 public class StatusType {
 	public String status="Null";

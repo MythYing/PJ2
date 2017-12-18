@@ -1,10 +1,13 @@
-package com.test.model;
+package model;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-import com.test.model.PlayerPosition;;
+
+import javax.websocket.Session;
+
+import model.PlayerPosition;;
 
 public class Common {
 	public final static int ROOM_MAX = 10;
@@ -23,6 +26,7 @@ public class Common {
 	
 	public static Queue<Integer> matchingPlayers = new LinkedList<Integer>(); // 正在匹配对局的玩家
 	public static Map<Integer, PlayerPosition> playerPositionMap = new HashMap<Integer, PlayerPosition>(); // 玩家位置映射
+	public static Map<Integer, Session> playerSessionMap=new HashMap<>();
 	
 	public static StatusType getStatus(int pid) {
 		StatusType status = new StatusType();
@@ -34,6 +38,9 @@ public class Common {
 		} else if (matchingPlayers.contains(pid)) {
 			status.status = "Matching";
 			status.data = matchingPlayers.size();
+		} else {
+			status.status = "Logined";
+			status.data = pid;
 		}
 		return status;
 	}
@@ -65,6 +72,13 @@ public class Common {
 	public static int getRid(int pid) {
 		if (playerPositionMap.containsKey(pid)) {
 			return playerPositionMap.get(pid).rid;
+		}else {
+			return -1;
+		}
+	}
+	public static int getRoomIndex(int pid) {
+		if (playerPositionMap.containsKey(pid)) {
+			return playerPositionMap.get(pid).roomIndex;
 		}else {
 			return -1;
 		}

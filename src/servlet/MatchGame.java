@@ -1,29 +1,25 @@
-package com.test.json;
+package servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-import com.test.model.Common;
-import com.test.model.StatusType;
+import model.Common;
 
 /**
- * Servlet implementation class GetStatus
+ * Servlet implementation class MatchGame
  */
-@WebServlet("/GetStatus")
-public class GetStatus extends HttpServlet {
+@WebServlet("/MatchGame")
+public class MatchGame extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetStatus() {
+    public MatchGame() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,25 +29,19 @@ public class GetStatus extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		PrintWriter out = response.getWriter();
-		String pidStr = request.getParameter("pid");
+		// TODO Auto-generated method stub		
+		// PrintWriter out = response.getWriter();
 		
-		int pid=Integer.parseInt(pidStr);				
-		StatusType status = Common.getStatus(pid);
+		int pid=(int) request.getSession().getAttribute("pid");
 		
-		Gson gson=new Gson();
-		String json=gson.toJson(status);
-		out.print(json);
-		out.flush();
-		
+		Common.matchGame(pid);
 		
 	}
 

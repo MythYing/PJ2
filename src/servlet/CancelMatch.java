@@ -1,4 +1,4 @@
-package com.test.json;
+package servlet;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,19 +7,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.test.model.Common;
+import model.Common;
 
 /**
- * Servlet implementation class MatchGame
+ * Servlet implementation class CancelMatch
  */
-@WebServlet("/MatchGame")
-public class MatchGame extends HttpServlet {
+@WebServlet("/CancelMatch")
+public class CancelMatch extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MatchGame() {
+    public CancelMatch() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,14 +36,10 @@ public class MatchGame extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub		
-		// PrintWriter out = response.getWriter();
+		// TODO Auto-generated method stub
+		int pid=(int) request.getSession().getAttribute("pid");
 		
-		String pidStr = request.getParameter("pid");
-		int pid=Integer.parseInt(pidStr);
-		
-		Common.matchGame(pid);
-		
+		Common.cancelMatch(pid);
 	}
 
 }
