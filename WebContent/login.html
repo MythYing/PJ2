@@ -5,22 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>欢迎来到PJ2 跑得快游戏!</title>
+    <title>登录页面 - PJ2 跑得快游戏!</title>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="static/js/lib/jquery.cookie.js"></script>
     <script src="static/js/lib/md5.min.js"></script>
     <script src="static/js/login.js"></script>
+    <link rel="stylesheet" href="static/css/common.css">
+    <link rel="stylesheet" href="static/css/login.css">
 </head>
 
-<body>
+<body class="clearfix">
+    <h1>登录</h1>
     <form id="login">
-        <label for="name">用户名</label>
-        <input type="text" id="name">
-        <label for="password">密码</label>
-        <input type="password" id="password">
+        <label for="name">用户名</label><br />
+        <input type="text" id="name"><br />
+        <label for="password">密&emsp;码</label><br />
+        <input type="password" id="password"><br />
     </form>
     <button id="login-button">登录</button>
-    <a href="register.html"><button id="register">注册</button></a>
+    <button id="register-button">注册</button>
     
 </body>
 
