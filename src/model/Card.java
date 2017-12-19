@@ -9,9 +9,9 @@ public class Card implements Comparable<Card>{
 	}
 	
 	public Card(String cardStr) {
-		int pos = cardStr.indexOf('s');
-		this.suit = cardStr.substring(0, pos + 1);
-		this.rank = cardStr.substring(pos + 1);	
+		Card card=Card.toCard(cardStr);
+		this.suit = card.suit;
+		this.rank = card.rank;
 	}
 	public Card(String suit, String rank) {
 		this.suit = suit;
@@ -20,7 +20,7 @@ public class Card implements Comparable<Card>{
 
 	public static Card toCard(String cardStr) {
 		Card card = new Card();
-		int pos = cardStr.indexOf('s');
+		int pos = cardStr.lastIndexOf('s');
 		card.suit = cardStr.substring(0, pos + 1);
 		card.rank = cardStr.substring(pos + 1);
 		return card;

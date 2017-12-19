@@ -14,8 +14,10 @@ public class Cards {
 	
 	public static ArrayList<Card> toArrayList(String[] cardsStringArray) {
 		ArrayList<Card> cardsArrayList=new ArrayList<>();
-		for (String card : cardsStringArray) {
-			cardsArrayList.add(Card.toCard(card));
+		if (cardsStringArray!=null) {
+			for (String card : cardsStringArray) {
+				cardsArrayList.add(Card.toCard(card));
+			}
 		}
 		return cardsArrayList;
 	}

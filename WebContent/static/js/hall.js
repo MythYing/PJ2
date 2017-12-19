@@ -46,16 +46,13 @@ $(document).ready(function(){
 function refreshStatusOnce(){
 	var obj=new Object();
 	$.post("GetStatus", {},
-	function (data, status) {
-		if (status == "success") {
-			obj=JSON.parse(data);
-			if (obj.status=="NotLogined") {
-				alert("您还未登陆，正在转跳至登录页面！")
-				$(window).attr('location','login.html');
-			}else if (status == "success") {
+		function (data, status) {
+			if (status == "success") {
 				obj=JSON.parse(data);
-
-				if(obj.status=="Gaming"){
+				if (obj.status=="NotLogined") {
+					alert("您还未登陆，正在转跳至登录页面！")
+					$(window).attr('location','login.html');
+				}else if(obj.status=="Gaming"){
 					// 转跳游戏界面
 					$(window).attr('location','room.html');
 				}else if (obj.status=="Matching") {	
@@ -63,28 +60,27 @@ function refreshStatusOnce(){
 				}
 			}  // if
 		}
-	}
 	); // post
 }
 
 function refreshStatus(){
 	var obj=new Object();
 	$.post("GetStatus",	{},
-	function (data, status) {
-		if (status == "success") {
-			obj=JSON.parse(data);
-			if (obj.status=="NotLogined") {
-				alert("您还未登陆，正在转跳至登录页面！")
-				$(window).attr('location','login.html');
-			}else if(obj.status=="Gaming"){
-				// 转跳游戏界面
-				$(window).attr('location','room.html');
-			}else if (obj.status=="Matching") {	
-				$("#matching-info").text("正在匹配，已匹配人数："+obj.data);
-				window.setTimeout(refreshStatus,1000);
-			}
-		}  // if
-	}
+		function (data, status) {
+			if (status == "success") {
+				obj=JSON.parse(data);
+				if (obj.status=="NotLogined") {
+					alert("您还未登陆，正在转跳至登录页面！")
+					$(window).attr('location','login.html');
+				}else if(obj.status=="Gaming"){
+					// 转跳游戏界面
+					$(window).attr('location','room.html');
+				}else if (obj.status=="Matching") {	
+					$("#matching-info").text("正在匹配，已匹配人数："+obj.data);
+					window.setTimeout(refreshStatus,1000);
+				}
+			}  // if
+		}
 	); // post
 }
 

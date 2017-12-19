@@ -93,8 +93,9 @@ public class Rules {
 	/*
 	 * 判断出牌是否合法
 	 */
-	private static boolean isRegular(int[] newcard) {		
-		return (getCardType(newcard)[0] != "Wu") ;
+	private static boolean isRegular(int[] newcard) {
+		System.out.println(getCardType(newcard)[0]);
+		return (!getCardType(newcard)[0].equals("Wu")) ;
 	}
 	
 	/*
@@ -154,7 +155,8 @@ public class Rules {
 	 */
 	public static String getCardType(ArrayList<Card> cards) {
 		int[] card = cardToInt(cards);
-		return getCardType(card)[0];
+		String[] typeRank = getCardType(card);
+		return typeRank[0];
 	}
 	public static String[] getCardType(int[] x){
 		String[] TypeandRank = new String[2];

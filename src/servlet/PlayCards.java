@@ -42,7 +42,7 @@ public class PlayCards extends HttpServlet {
 		int pid=(int) request.getSession().getAttribute("pid");
 		System.out.println(pid);
 		String[] cardsStringArray = request.getParameterValues("cardsPlayed[]");
-		System.out.println(cardsStringArray[0]+cardsStringArray[1]);
+		System.out.println(cardsStringArray);
 		Cards cardsPlayed = new Cards(cardsStringArray);
 		StatusType status = new StatusType();
 		// 如果合法

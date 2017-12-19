@@ -37,8 +37,7 @@ public class GetVisibleGameData extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		int pid=(int) request.getSession().getAttribute("pid");				
-		
+		int pid=(int) request.getSession().getAttribute("pid");
 		VisibleGameData data=null;
 		try {
 			data = new VisibleGameData(pid);

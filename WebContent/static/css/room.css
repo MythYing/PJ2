@@ -67,6 +67,7 @@ body{
     border: none;
     background: transparent;
     outline: none;
+    cursor: pointer;
 }
 .card>img{
     width: 172px;

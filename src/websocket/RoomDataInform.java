@@ -26,8 +26,11 @@ public class RoomDataInform extends Configurator{
 	@OnOpen
 	public void onOpen(Session session, EndpointConfig config){
 		int pid =(int)config.getUserProperties().get("pid");
-        int index=Common.getRoomIndex(pid);
-        Common.getRoom(pid).playerSessions[index]=session;
+        if(Common.getStatus(pid).status.equals("Gaming")) {
+        	int index=Common.getRoomIndex(pid);
+            Common.getRoom(pid).playerSessions[index]=session;
+        }
+        System.out.println("Session"+session.getId());
 	}
 	
 	public static void sendMessage(int pid, String message) throws IOException {

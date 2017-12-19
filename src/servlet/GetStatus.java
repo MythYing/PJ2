@@ -46,7 +46,7 @@ public class GetStatus extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		StatusType status = new StatusType();
 		try {
-			int pid=(int) request.getSession().getAttribute("pid");			
+			int pid=(int) request.getSession().getAttribute("pid");	
 			status = Common.getStatus(pid);				
 		} catch (Exception e) {
 			status.status="NotLogined";
