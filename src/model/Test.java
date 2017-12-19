@@ -3,10 +3,18 @@ package model;
 public class Test {
 
 	public static void main(String[] args) {
-		Card a=Card.toCard("clubs10");
-		System.out.println(a.rank);
-		System.out.println(a.suit);
+		String[] cStrings={"diamonds8","diamonds9","diamonds10"};
+		Cards cards=new Cards(cStrings) ;
+		for (Card c : cards.cards) {
+			System.out.println(c.toString());
+		}
+		String[] cStrings1={"diamonds8","diamonds9"};
 		
+		cards.cards.removeAll(Cards.toArrayList(cStrings1));
+		
+		for (Card c : cards.cards) {
+			System.out.println(c.toString());
+		}
 	}
 
 }

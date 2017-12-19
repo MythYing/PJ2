@@ -7,10 +7,15 @@ public class Card implements Comparable<Card>{
 	public Card() {
 
 	}
-
-	public Card(String rank, String suit) {
-		this.rank = rank;
+	
+	public Card(String cardStr) {
+		int pos = cardStr.indexOf('s');
+		this.suit = cardStr.substring(0, pos + 1);
+		this.rank = cardStr.substring(pos + 1);	
+	}
+	public Card(String suit, String rank) {
 		this.suit = suit;
+		this.rank = rank;	
 	}
 
 	public static Card toCard(String cardStr) {
@@ -67,5 +72,21 @@ public class Card implements Comparable<Card>{
 		default:
 			return 0;
 		}
+	}
+	@Override
+	public boolean equals(Object o) {  
+		if(o == null) {  
+			return false;  
+		} 
+		if(getClass() != o.getClass()) {  
+			return false;  
+		}
+		Card card=(Card)o;
+		if (this.suit.equals(card.suit) && this.rank.equals(card.rank)) {
+			return true;
+		}else {
+			return false;
+		}
+		 
 	}
 }

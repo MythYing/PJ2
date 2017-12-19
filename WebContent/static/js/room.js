@@ -42,7 +42,7 @@ $(document).ready(function () {
 			},
 			function (data, status) {
 				if (status=="success") {
-					obj=JSON.parse(data);
+					var obj=JSON.parse(data);
 					switch (obj.status) {
 						case "GameOver":
 							// 游戏结束
@@ -79,11 +79,12 @@ function getVisibleGameData() {
 				$("#player-right>.name").text(obj.playerRightName);
 				$("#player-right>.number-of-cards").text(obj.playerRightNumberOfCards);
 				$("#cards").css("width", (obj.cardsInMyHand.length * 50 + 122).toString() + "px");
+				$("#cards").html("");
 				for (const i in obj.cardsInMyHand) {
 					var cardElement = getCardElement(obj.cardsInMyHand[i]);
 					$("#cards").append(cardElement);
 				}
-				if (obj.myRoomIndex != obj.turn) {
+				if (obj.myId!= obj.turn) {
 					$("#play-card").attr("disabled", "disabled");
 					$("#pass").attr("disabled", "disabled");
 					$("#time-left").hide();

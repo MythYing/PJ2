@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+
 /**
  * DanPai
  * DuiZi
@@ -39,7 +40,7 @@ public class Rules {
 		 */
 		
 		/** 能出牌只有if中的情况： */
-		if ( isRegular(newcard) && (pid == MaxPlayerId || isAfford(newcard, MaxCards) || MaxPlayerId == -1) ) {
+		if ( isRegular(newcard) && ( MaxPlayerId == -1||pid == MaxPlayerId || isAfford(newcard, MaxCards) ) ) {
 			return true;
 		} 
 		else
@@ -49,9 +50,7 @@ public class Rules {
 
 	// 将服务端传来的牌转为int[]类型
 	private static int[] cardToInt(ArrayList<Card> cards) {
-		if (cards==null) {
-			return new int[0];
-		}
+		
 		int[] card = new int[cards.size()];
 		for (int i = 0; i < cards.size(); i++) {			
 			card[i] = rankToInt(cards.get(i).rank);
@@ -95,7 +94,7 @@ public class Rules {
 	 * 判断出牌是否合法
 	 */
 	private static boolean isRegular(int[] newcard) {		
-		return (getCardType(newcard)[0] == "false") ;
+		return (getCardType(newcard)[0] != "Wu") ;
 	}
 	
 	/*
@@ -153,6 +152,10 @@ public class Rules {
 	/*
 	 * 返回牌的类型
 	 */
+	public static String getCardType(ArrayList<Card> cards) {
+		int[] card = cardToInt(cards);
+		return getCardType(card)[0];
+	}
 	public static String[] getCardType(int[] x){
 		String[] TypeandRank = new String[2];
 		if(x.length == 1){
@@ -216,8 +219,8 @@ public class Rules {
 			TypeandRank[1] = String.valueOf(straight(x));
 			return TypeandRank;
 		}
-		TypeandRank[0] = "false";
-		TypeandRank[1] = "false";
+		TypeandRank[0] = "Wu";
+		TypeandRank[1] = "Wu";
 		return TypeandRank;
 	}
 	/**straight 顺子 
@@ -394,3 +397,4 @@ public class Rules {
 		return x[0];
 	}
 }
+

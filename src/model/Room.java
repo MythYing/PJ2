@@ -33,7 +33,7 @@ public class Room{
 		String[] suits = { "diamonds", "clubs", "hearts", "spades" };
 
 		for (int i = 0; i < 52; i++) {
-			cards.add(new Card(ranks[i % 13], suits[i / 13]));
+			cards.add(new Card(suits[i / 13], ranks[i % 13]));
 			// System.out.println(i+" "+cards.get(i).rank+" "+cards.get(i).suit);
 		}
 		// 去掉三张“2”，一张“A”，剩48张牌

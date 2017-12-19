@@ -40,8 +40,9 @@ public class PlayCards extends HttpServlet {
 		// 输出流
 		PrintWriter out = response.getWriter();
 		int pid=(int) request.getSession().getAttribute("pid");
-		
+		System.out.println(pid);
 		String[] cardsStringArray = request.getParameterValues("cardsPlayed[]");
+		System.out.println(cardsStringArray[0]+cardsStringArray[1]);
 		Cards cardsPlayed = new Cards(cardsStringArray);
 		StatusType status = new StatusType();
 		// 如果合法
@@ -68,6 +69,7 @@ public class PlayCards extends HttpServlet {
 			}
 			Gson gson=new Gson();
 			String json = gson.toJson(status);
+			System.out.println(json);
 			out.print(json);
 			out.flush();
 		}

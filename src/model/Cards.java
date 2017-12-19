@@ -9,6 +9,7 @@ public class Cards {
 	public Cards(String[] cards) {
 		this.cards=Cards.toArrayList(cards);
 		// 牌型...
+		this.type=Rules.getCardType(this.cards);
 	}
 	
 	public static ArrayList<Card> toArrayList(String[] cardsStringArray) {
