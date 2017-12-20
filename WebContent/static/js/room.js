@@ -1,6 +1,6 @@
 $(document).ready(function () {	
 	refreshStatusOnce();
-	var cardsPlayed = new Array();
+	var cardsPlayed;
 	// ----监听事件开始----
 	var isListening = false;
 	var websocket = null;
@@ -110,6 +110,7 @@ function getVisibleGameData() {
 				$("#player-right>.number-of-cards").text(obj.playerRightNumberOfCards);
 				$("#cards").css("width", (obj.cardsInMyHand.length * 50 + 122).toString() + "px");
 				$("#cards").html("");
+				cardsPlayed=new Array();
 				for (const i in obj.cardsInMyHand) {
 					var cardElement = getCardElement(obj.cardsInMyHand[i]);
 					$("#cards").append(cardElement);
@@ -140,8 +141,6 @@ function refreshStatusOnce(){
 						$(window).attr('location','login.html');
 						break;
 					case "Matching":
-						$(window).attr('location','hall.html');
-						break;
 					case "Logined":
 						$(window).attr('location','hall.html');
 						break;

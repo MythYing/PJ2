@@ -29,7 +29,7 @@ public class Rules {
 		 * 传来的牌为空(玩家不出牌)
 		 */
 		if (newcard.length == 0) {
-			if (MaxPlayerId == -1) 	// 桌上没牌，说明这是第一个出牌玩家，不能不出牌
+			if (MaxPlayerId == -1 || pid == MaxPlayerId ) 	// 这两种q情况不能不出牌
 				return false;
 			else 						// 玩家无牌pass
 				return true;
@@ -93,8 +93,7 @@ public class Rules {
 	/*
 	 * 判断出牌是否合法
 	 */
-	private static boolean isRegular(int[] newcard) {
-		System.out.println(getCardType(newcard)[0]);
+	private static boolean isRegular(int[] newcard) {		
 		return (!getCardType(newcard)[0].equals("Wu")) ;
 	}
 	
@@ -105,15 +104,12 @@ public class Rules {
 		int len = newcard.length;
 		int lastlen = MaxCards.length;
 
-		if (len != lastlen && len != 4)
-			return false;
-
-		if (len == 4 && lastlen != 4 && bomb(newcard) != 0) {
+		if (getCardType(newcard)[0] != getCardType(MaxCards)[0] && bomb(newcard) != 0) {
 			return true;
 		}
 		
-		if(getCardType(newcard)[0] == getCardType(MaxCards)[0]) {
-			if(getCardType(newcard)[0] =="LianDui") {
+		if( getCardType(newcard)[0] .equals(getCardType(MaxCards)[0]) ) {
+			if( getCardType(newcard)[0] .equals("LianDui") ) {
 				if(newcard.length == MaxCards.length) {
 					int cardRank = Integer.parseInt(getCardType(newcard)[1]);
 					int MaxCardsRank = Integer.parseInt(getCardType(MaxCards)[1]);
@@ -123,7 +119,7 @@ public class Rules {
 					return false;
 				}
 			}
-			if(getCardType(newcard)[0] =="ShunZi") {
+			if( getCardType(newcard)[0].equals("ShunZi") ) {
 				if(newcard.length == MaxCards.length) {
 					int cardRank = Integer.parseInt(getCardType(newcard)[1]);
 					int MaxCardsRank = Integer.parseInt(getCardType(MaxCards)[1]);
@@ -133,7 +129,7 @@ public class Rules {
 					return false;
 				}
 			}
-			if(getCardType(newcard)[0] =="FeiJI") {
+			if( getCardType(newcard)[0].equals("FeiJI") ) {
 				if(feiJi(newcard)[1] == feiJi(MaxCards)[1]) {
 					int cardRank = Integer.parseInt(getCardType(newcard)[1]);
 					int MaxCardsRank = Integer.parseInt(getCardType(MaxCards)[1]);
@@ -155,8 +151,7 @@ public class Rules {
 	 */
 	public static String getCardType(ArrayList<Card> cards) {
 		int[] card = cardToInt(cards);
-		String[] typeRank = getCardType(card);
-		return typeRank[0];
+		return getCardType(card)[0];
 	}
 	public static String[] getCardType(int[] x){
 		String[] TypeandRank = new String[2];
@@ -320,8 +315,12 @@ public class Rules {
 	}
 	/*
 	 * n个对子相连
-	 */
+	 *//*(x[i] != x[i + 1]) &&*/
 	public static int multiplePair(int[] x) {//连对
+		for (int i = 0; i < x.length - 2; i = i + 2) {
+			if ((x[i] + 1) != x[i + 2])
+				return 0;
+		}
 		for (int i = 0; i < x.length - 1; i = i + 2) {
 			if (x[i] != x[i + 1])
 				return 0;
@@ -335,7 +334,7 @@ public class Rules {
 		int[] rankAndType = new int[2];
 		if(x.length >= 6 && x.length <=10) {//AAABBB型带四张以内的牌
 			for (int j = 0; j <= x.length - 6; j++) {
-				if (x[j] == x[j + 1] && x[j + 1] == x[j + 2] && x[j + 2] == (x[j + 3] + 1) && x[j + 3] == x[j + 4] && x[j + 4] == x[j + 5] ) {
+				if (x[j] == x[j + 1] && x[j + 1] == x[j + 2] && x[j + 2] == (x[j + 3] - 1) && x[j + 3] == x[j + 4] && x[j + 4] == x[j + 5] ) {
 					rankAndType[0] = x[j];
 					rankAndType[1] = 6;
 					return rankAndType;
@@ -343,45 +342,81 @@ public class Rules {
 			}
 		}
 		if(x.length >= 9 && x.length <=15) {//AAABBBCCC型带六张以内的牌
-			for (int j = 0; j <= x.length - 9; j++) {
-				for (int i = j; i < j + 9; i = i + 3) {
-					if (x[i] != x[i + 1] || x[i + 1] != x[i + 2]) {
-						rankAndType[0] = 0;
-						rankAndType[1] = 0;
-						return rankAndType;
-					}
+			int tag = 0;
+			for (int j = 0; j <= x.length - 3; j = j+1) {
+				if(x[j] == x[j + 1] && x[j+1] == x[j+2]){
+					tag = j;
+					break;
 				}
-				rankAndType[0] = x[j];
+			}
+			for (int k = tag; k < tag + 6; k = k + 3) {
+				if ((x[k] + 1) != x[k + 3]){
+				rankAndType[0] = 0;
+				rankAndType[1] = 0;
+				return rankAndType;
+				}
+			}
+			for (int i = tag; i < tag + 9; i = i + 3) {
+				if (x[i] != x[i + 1] || x[i + 1] != x[i + 2]) {
+					rankAndType[0] = 0;
+					rankAndType[1] = 0;
+					return rankAndType;
+				}
+				rankAndType[0] = x[tag];
 				rankAndType[1] = 9;
 				return rankAndType;
 			}
 		}
 		if(x.length >= 12 && x.length <=16) {//AAABBBCCCDDD型带八张以内的牌
-			for (int j = 0; j <= x.length - 12; j++) {
-				for (int i = j; i < j + 12; i = i + 3) {
-					if (x[i] != x[i + 1] || x[i + 1] != x[i + 2]) {
-						rankAndType[0] = 0;
-					rankAndType[1] = 0;
-					return rankAndType;
+			int tag = 0;
+			for (int j = 0; j <= x.length - 3; j = j+1) {
+				if(x[j] == x[j + 1] && x[j+1] == x[j+2]){
+					tag = j;
+					break;
 				}
 			}
-			rankAndType[0] = x[j];
-			rankAndType[1] = 12;
-			return rankAndType;
+			for (int k = tag; k < tag + 9; k = k + 3) {
+				if ((x[k] + 1) != x[k + 3]){
+				rankAndType[0] = 0;
+				rankAndType[1] = 0;
+				return rankAndType;
+				}
 			}
-		}
-		if(x.length >= 15) {//AAABBBCCCDDDEEE型
-			for (int j = 0; j <= x.length - 15; j++) {
-				for (int i = j; i < j + 15; i = i + 3) {
-					if (x[i] != x[i + 1] || x[i + 1] != x[i + 2]) {
+			for (int i = tag; i < tag + 12; i = i + 3) {
+				if (x[i] != x[i + 1] || x[i + 1] != x[i + 2]) {
 					rankAndType[0] = 0;
 					rankAndType[1] = 0;
 					return rankAndType;
 				}
+				rankAndType[0] = x[tag];
+				rankAndType[1] = 12;
+				return rankAndType;
 			}
-			rankAndType[0] = x[j];
-			rankAndType[1] = 15;
-			return rankAndType;
+		}
+		if(x.length >= 15) {//AAABBBCCCDDDEEE型
+			int tag = 0;
+			for (int j = 0; j <= x.length - 3; j = j+1) {
+				if(x[j] == x[j + 1] && x[j+1] == x[j+2]){
+					tag = j;
+					break;
+				}
+			}
+			for (int k = tag; k < tag + 12; k = k + 3) {
+				if ((x[k] + 1) != x[k + 3]){
+				rankAndType[0] = 0;
+				rankAndType[1] = 0;
+				return rankAndType;
+				}
+			}
+			for (int i = tag; i < tag + 15; i = i + 3) {
+				if (x[i] != x[i + 1] || x[i + 1] != x[i + 2]) {
+					rankAndType[0] = 0;
+					rankAndType[1] = 0;
+					return rankAndType;
+				}
+				rankAndType[0] = x[tag];
+				rankAndType[1] = 15;
+				return rankAndType;
 			}
 		}
 		rankAndType[0] = 0;
@@ -393,10 +428,9 @@ public class Rules {
 	 */
 	public static int straight(int[] x) {
 		for (int i = 1; i < x.length; i++) {
-			if (x[i - 1] != x[i] + 1)
+			if ((x[i - 1] + 1) != x[i])
 				return 0;
 		}
 		return x[0];
 	}
 }
-

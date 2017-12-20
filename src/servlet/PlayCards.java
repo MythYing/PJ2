@@ -52,7 +52,10 @@ public class PlayCards extends HttpServlet {
 				// 打出手中的拍牌
 				Common.getPlayer(pid).cardsInHand.removeAll(cardsPlayed.cards);
 				Common.getRoom(pid).maxPlayer=pid;
-				Common.getRoom(pid).maxCards=cardsPlayed;
+				// 如果非PASS
+				if (cardsPlayed!=null) {
+					Common.getRoom(pid).maxCards=cardsPlayed;
+				}		
 				Common.nextTurn(pid);
 				// 游戏结束判断
 				if(Common.getPlayer(pid).cardsInHand.size()==0) {
