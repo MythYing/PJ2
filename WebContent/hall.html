@@ -6,32 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>欢迎来到PJ2 跑得快游戏!</title>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="static/js/lib/jquery.cookie.js"></script>
     <script src="static/js/hall.js"></script>
     <link rel="stylesheet" href="static/css/common.css">
     <link rel="stylesheet" href="static/css/hall.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
     <header>
-        <h1>游戏大厅</h1>
         <div id="user-info">
             <div class="icon">
                 <img src="/PJ2/static/images/icon/default.jpg">
             </div>
-            <p id="pid"></p>
+            <div id="name">用户名</div>
+            <div id="carrot">胡萝卜：2000</div>
+            <button id="logout-button"><i class="fa fa-power-off"></i></button>
         </div>
-        <button id="logout-button">退出登录</button>
-        <nav class="clearfix">
-            <ul>
-                <li>匹配大厅</li>
-                <li>游戏记录</li>
-                <li>商店</li>
-                <li>背包</li>
-            </ul>          
-        </nav>
     </header>
+    <nav class="clearfix">
+        <ul>
+            <li>匹配大厅</li>
+            <li>游戏记录</li>
+            <li>商店</li>
+            <li>背包</li>
+        </ul>          
+    </nav>
     <div id="content">
         <div id="match"> 
             <div id="matching-info"></div>  
