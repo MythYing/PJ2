@@ -119,3 +119,10 @@ body{
 #pass{
     float: right;
 }
+
+#game-result {
+    z-index: 1;
+    width: 600px;
+    margin: 0 auto;
+    background: rgba(0,0,0,0.5);
+}

@@ -12,11 +12,14 @@ import javax.websocket.server.ServerEndpoint;
 import javax.websocket.server.ServerEndpointConfig;
 import javax.websocket.server.ServerEndpointConfig.Configurator;
 
+import com.google.gson.Gson;
+
 import model.Common;
+import model.Data;
 
 @ServerEndpoint(value="/RoomDataInform",configurator=RoomDataInform.class)
 public class RoomDataInform extends Configurator{
-	
+	public  static Gson gson=new Gson();
 	@Override
     public void modifyHandshake(ServerEndpointConfig sec, HandshakeRequest request, HandshakeResponse response) {
         HttpSession httpSession=(HttpSession) request.getHttpSession();
@@ -33,7 +36,7 @@ public class RoomDataInform extends Configurator{
         System.out.println("Session"+session.getId());
 	}
 	
-	public static void sendMessage(int pid, String message) throws IOException {
+	public static void sendMessage(int pid, String message) throws IOException {		
 		for(int i=0;i<=2;i++) {
 			Common.getRoom(pid).playerSessions[i].getBasicRemote().sendText(message);
 		}

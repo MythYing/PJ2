@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,11 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import model.Cards;
 import model.Common;
+import model.Room;
 import model.Rules;
-import model.StatusType;
+import model.VisibleGameData;
+import model.Data;
+import model.GameResultData;
 import websocket.RoomDataInform;
 
 /**
@@ -40,38 +45,48 @@ public class PlayCards extends HttpServlet {
 		// 输出流
 		PrintWriter out = response.getWriter();
 		int pid=(int) request.getSession().getAttribute("pid");
-		System.out.println(pid);
+		System.out.println("PID:"+pid);
 		String[] cardsStringArray = request.getParameterValues("cardsPlayed[]");
-		System.out.println(cardsStringArray);
+		// 测试传入卡牌
+		if(cardsStringArray==null) {
+			System.out.println("null");
+		}else {
+			for (String string : cardsStringArray) {
+				System.out.print(string+" ");
+			}
+			System.out.println();
+		}
 		Cards cardsPlayed = new Cards(cardsStringArray);
-		StatusType status = new StatusType();
+		Data data = new Data();
 		// 如果合法
 		if(pid==Common.getTurn(pid)) {
 			boolean result = Rules.successful(pid, cardsPlayed);
 			if (result) {
 				// 打出手中的拍牌
 				Common.getPlayer(pid).cardsInHand.removeAll(cardsPlayed.cards);
-				Common.getRoom(pid).maxPlayer=pid;
 				// 如果非PASS
-				if (cardsPlayed!=null) {
+				if (cardsStringArray!=null) {
+					Common.getRoom(pid).maxPlayer=pid;
 					Common.getRoom(pid).maxCards=cardsPlayed;
-				}		
-				Common.nextTurn(pid);
+				}
 				// 游戏结束判断
-				if(Common.getPlayer(pid).cardsInHand.size()==0) {
-					Common.gameOverRelease(pid);			
-					status.status="GameOver";
-					status.data=pid;
-					
+				if(Common.getPlayer(pid).cardsInHand.size()==0) {			
+					data.status="GameOver";
+					RoomDataInform.sendMessage(pid, "GameOver");
 				}else {
-					status.status="SuccessfulPlay";
+					Common.nextTurn(pid);
+					data.status="SuccessfulPlay";
 					RoomDataInform.sendMessage(pid, "Refresh");
 				}
 			}else {
-				status.status="FailedPlay";
+				data.status="FailedPlay";
 			}
+			// 调试输出最大玩家
+//			Room room=Common.getRoom(pid);
+//			System.out.println("最大玩家："+room.maxPlayer);
+			
 			Gson gson=new Gson();
-			String json = gson.toJson(status);
+			String json = gson.toJson(data);
 			System.out.println(json);
 			out.print(json);
 			out.flush();

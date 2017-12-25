@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.Common;
-import model.StatusType;
+import model.Data;
 
 /**
  * Servlet implementation class Logout

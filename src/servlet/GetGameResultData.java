@@ -8,56 +8,48 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
 import model.Common;
-import model.Data;
+import model.GameResultData;
 
 /**
- * Servlet implementation class GetStatus
+ * Servlet implementation class GetGameResultData
  */
-@WebServlet("/GetStatus")
-public class GetStatus extends HttpServlet {
+@WebServlet("/GetGameResultData")
+public class GetGameResultData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetStatus() {
+    public GetGameResultData() {
         super();
         // TODO Auto-generated constructor stub
     }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-
-	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
-		Data status = new Data();
-		try {
-			int pid=(int) request.getSession().getAttribute("pid");	
-			status = Common.getStatus(pid);				
-		} catch (Exception e) {
-			status.status="NotLogined";
-			status.data=-1;
+		
+		int pid=(int) request.getSession().getAttribute("pid");
+		GameResultData gameResultData=new GameResultData(pid);
+		
+		boolean[] hasGotResult=Common.getRoom(pid).hasGotResult;
+		hasGotResult[Common.getRoomIndex(pid)]=true;
+		if (hasGotResult[0]&&hasGotResult[1]&&hasGotResult[2]) {
+			Common.gameOverRelease(pid);
 		}
 		
 		Gson gson=new Gson();
-		String json=gson.toJson(status);
+		String json=gson.toJson(gameResultData);
 		out.print(json);
 		out.flush();
-		
 	}
 
 }

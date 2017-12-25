@@ -14,7 +14,8 @@ public class Room{
 	public int turn = -1;	//pid
 	public Cards maxCards=new Cards(new String[0]);
 	public int maxPlayer = -1;		//pid
-	public  Session[] playerSessions = new Session[3];
+	public Session[] playerSessions = new Session[3];
+	public boolean[] hasGotResult=new boolean[3];
 	
 	public Room(int[] p) {
 		System.out.println("Room类已创建");

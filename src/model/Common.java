@@ -28,8 +28,8 @@ public class Common {
 	public static Map<Integer, PlayerPosition> playerPositionMap = new HashMap<Integer, PlayerPosition>(); // 玩家位置映射
 	public static Map<Integer, Session> playerSessionMap=new HashMap<>();
 	
-	public static StatusType getStatus(int pid) {
-		StatusType status = new StatusType();
+	public static Data getStatus(int pid) {
+		Data status = new Data();
 		// 如果已经在游戏
 		if (playerPositionMap.containsKey(pid)) {
 			status.status = "Gaming";

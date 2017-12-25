@@ -69,6 +69,22 @@ public class DB {
 		return rs.getString(1);	
 	}
 	
+	public static Info getInfo(int pid) throws SQLException {	
+		Info info=new Info();
+		Connection conn=connect();
+		String sql = "select id, name, carrot from user where id = ?"; 
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setInt(1,pid);
+		ResultSet rs = ps.executeQuery();
+		if(rs.next()) {	
+			info.id=rs.getInt("id");
+			info.name=rs.getString("name");
+			info.carrot=rs.getInt("carrot");
+			
+		}
+		return info;
+	}
+	
 	
 	
 	
