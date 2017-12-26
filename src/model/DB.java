@@ -68,21 +68,33 @@ public class DB {
 		rs.next();
 		return rs.getString(1);	
 	}
-	
-	public static Info getInfo(int pid) throws SQLException {	
-		Info info=new Info();
+	public static String getIcon(int pid) throws SQLException {
 		Connection conn=connect();
-		String sql = "select id, name, carrot from user where id = ?"; 
+		String sql = "select file_name from icon where icon.id = (select icon from user where id = ?);";
 		PreparedStatement ps = conn.prepareStatement(sql);
 		ps.setInt(1,pid);
 		ResultSet rs = ps.executeQuery();
 		if(rs.next()) {	
+			return "/PJ2/static/images/icon/"+rs.getString("file_name");
+		}else {
+			return null;
+		}
+	}
+	public static Info getInfo(int pid) throws SQLException {	
+		Connection conn=connect();
+		String sql = "select id, name, carrots from user where id = ?";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setInt(1,pid);
+		ResultSet rs = ps.executeQuery();
+		if(rs.next()) {	
+			Info info=new Info();
 			info.id=rs.getInt("id");
 			info.name=rs.getString("name");
-			info.carrot=rs.getInt("carrot");
-			
+			info.carrots=rs.getInt("carrots");
+			info.icon=getIcon(pid);
+			return info;
 		}
-		return info;
+		return null;
 	}
 	
 	

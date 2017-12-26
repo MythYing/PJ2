@@ -36,9 +36,13 @@ public class RoomDataInform extends Configurator{
         System.out.println("Session"+session.getId());
 	}
 	
-	public static void sendMessage(int pid, String message) throws IOException {		
+	public static void sendMessageAll(int pid, String message) throws IOException {		
 		for(int i=0;i<=2;i++) {
 			Common.getRoom(pid).playerSessions[i].getBasicRemote().sendText(message);
 		}
+	}
+	public static void sendMessage(int pid, String message) throws IOException {		
+		int index=Common.getRoomIndex(pid);
+        Common.getRoom(pid).playerSessions[index].getBasicRemote().sendText(message);
 	}
 }

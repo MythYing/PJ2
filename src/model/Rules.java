@@ -104,7 +104,7 @@ public class Rules {
 		int len = newcard.length;
 		int lastlen = MaxCards.length;
 
-		if (getCardType(newcard)[0] != getCardType(MaxCards)[0] && bomb(newcard) != 0) {
+		if (getCardType(newcard)[0] != getCardType(MaxCards)[0] && len==4 && bomb(newcard) != 0) {
 			return true;
 		}
 		

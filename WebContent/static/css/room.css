@@ -121,8 +121,12 @@ body{
 }
 
 #game-result {
+    position: absolute;
     z-index: 1;
+    left: 600px;
+    top: 300px;
     width: 600px;
-    margin: 0 auto;
+    height: 400px;
     background: rgba(0,0,0,0.5);
+    color: white;
 }

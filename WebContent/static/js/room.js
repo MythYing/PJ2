@@ -137,20 +137,20 @@ function getAndShowVisibleGameData() {
 //------------------------------------游戏结束------------------------------------------------------
 function getResultElement(roomIndex, name, carrotChange) {
 	var resultElement = '<tr><td>{roomIndex}</td><td>{name}</td><td>{carrotChange}</td>';
-	cardElement = cardElement.replace(/\{roomIndex\}/g, roomIndex);
-	cardElement = cardElement.replace(/\{name\}/g, name);
-	cardElement = cardElement.replace(/\{carrotChange\}/g, carrotChange);
+	resultElement = resultElement.replace(/\{roomIndex\}/g, roomIndex);
+	resultElement = resultElement.replace(/\{name\}/g, name);
+	resultElement = resultElement.replace(/\{carrotChange\}/g, carrotChange);
 	return resultElement;
 }
 function showGameResultData(obj){
 	for(i=0;i<3;i++){
-		var resultElement=getResultElement(i, obj.names[i], carrotChanges[i]);
+		var resultElement=getResultElement(i, obj.names[i], obj.carrotChanges[i]);
 		$("#result-table").append(resultElement);
 	}
 	$("#game-result").show();
 }
 function getAndShowGameResultData() {
-	$.post("getGameResultData", {},
+	$.post("GetGameResultData", {},
 		function (data, status) {
 			if (status == "success") {
 				var obj = JSON.parse(data);

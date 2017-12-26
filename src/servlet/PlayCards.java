@@ -71,12 +71,13 @@ public class PlayCards extends HttpServlet {
 				}
 				// 游戏结束判断
 				if(Common.getPlayer(pid).cardsInHand.size()==0) {			
+					Common.getRoom(pid).hasGotResult=new boolean[3];
 					data.status="GameOver";
-					RoomDataInform.sendMessage(pid, "GameOver");
+					RoomDataInform.sendMessageAll(pid, "GameOver");
 				}else {
 					Common.nextTurn(pid);
 					data.status="SuccessfulPlay";
-					RoomDataInform.sendMessage(pid, "Refresh");
+					RoomDataInform.sendMessageAll(pid, "Refresh");
 				}
 			}else {
 				data.status="FailedPlay";

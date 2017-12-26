@@ -12,21 +12,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import model.Common;
-import model.VisibleGameData;
-import websocket.RoomDataInform;
+import model.DB;
+import model.Info;
 
 /**
- * Servlet implementation class GetVisibleGameData
+ * Servlet implementation class GetInfo
  */
-@WebServlet("/GetVisibleGameData")
-public class GetVisibleGameData extends HttpServlet {
+@WebServlet("/GetInfo")
+public class GetInfo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetVisibleGameData() {
+    public GetInfo() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,24 +39,18 @@ public class GetVisibleGameData extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		int pid=(int) request.getSession().getAttribute("pid");
-		if (Common.getRoom(pid).hasGotResult!=null) {
-			// 显示结果 掉线
-			RoomDataInform.sendMessage(pid, "GameOver");
-		}
 		
-		VisibleGameData data=null;
+		Info info=null;
 		try {
-			data = new VisibleGameData(pid);
+			info=DB.getInfo(pid);			
 		} catch (SQLException e) {
-			// TODO 自动生成的 catch 块
 			e.printStackTrace();
 		}
 		
 		Gson gson=new Gson();
-		String json=gson.toJson(data);
+		String json=gson.toJson(info);
 		out.print(json);
 		out.flush();
-		
 	}
 
 }
