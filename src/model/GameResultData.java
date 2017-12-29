@@ -1,29 +1,33 @@
 package model;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class GameResultData{
 	public int myId;
 	public String winner;
 	public String[] names=new String[3];
+	public String[] icons=new String[3];
 	public int[] carrotChanges = new int[3];
 	
-	public GameResultData(int pid) {
-		myId = pid;
-		Room room = Common.getRoom(pid);
-		
-		try {
-			winner=DB.getUserName(room.maxPlayer);
-			for(int i=0;i<=2;i++) {
-				names[i]=DB.getUserName(room.pid[i]);
-				if (room.pid[i]==room.maxPlayer) {
-					carrotChanges[i]= (Common.getRoom(pid).players[(i+1)%3].cardsInHand.size()+Common.getRoom(pid).players[(i+2)%3].cardsInHand.size())*100;
-				}else {
-					carrotChanges[i]=Common.getRoom(pid).players[i].cardsInHand.size()*(-100);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}	
+	public GameResultData(int pid) throws SQLException {
+		ResultSet rs=DB.getGameResult(pid);
+		myId=pid;
+		if(rs.next()) {
+			// winner
+			winner=DB.getUserName(rs.getInt("winner"));
+			// 用户名
+			names[0]=DB.getUserName(rs.getInt("uid0"));
+			names[1]=DB.getUserName(rs.getInt("uid1"));
+			names[2]=DB.getUserName(rs.getInt("uid2"));
+			// 头像
+			icons[0]=DB.getIcon(rs.getInt("uid0"));
+			icons[1]=DB.getIcon(rs.getInt("uid1"));
+			icons[2]=DB.getIcon(rs.getInt("uid2"));
+			// 胡萝卜变化
+			carrotChanges[0]=rs.getInt("carrots_change0");
+			carrotChanges[1]=rs.getInt("carrots_change1");
+			carrotChanges[2]=rs.getInt("carrots_change2");
+		}		
 	}
 }

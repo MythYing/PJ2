@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,18 +39,17 @@ public class GetGameResultData extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		int pid=(int) request.getSession().getAttribute("pid");
-		GameResultData gameResultData=new GameResultData(pid);
-		
-		boolean[] hasGotResult=Common.getRoom(pid).hasGotResult;
-		hasGotResult[Common.getRoomIndex(pid)]=true;
-		if (hasGotResult[0]&&hasGotResult[1]&&hasGotResult[2]) {
-			Common.gameOverRelease(pid);
-		}
-		
-		Gson gson=new Gson();
-		String json=gson.toJson(gameResultData);
-		out.print(json);
-		out.flush();
+		GameResultData gameResultData;
+		try {
+			gameResultData = new GameResultData(pid);
+			Gson gson=new Gson();
+			String json=gson.toJson(gameResultData);
+			out.print(json);
+			out.flush();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
 	}
 
 }

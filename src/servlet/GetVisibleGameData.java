@@ -40,10 +40,6 @@ public class GetVisibleGameData extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		int pid=(int) request.getSession().getAttribute("pid");
-		if (Common.getRoom(pid).hasGotResult!=null) {
-			// 显示结果 掉线
-			RoomDataInform.sendMessage(pid, "GameOver");
-		}
 		
 		VisibleGameData data=null;
 		try {

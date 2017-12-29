@@ -52,7 +52,7 @@ public class DB {
 		ps.setString(1,name);
 		ResultSet rs = ps.executeQuery();
 		if(rs.next()) {
-			return rs.getInt(1);
+			return rs.getInt("id");
 		}
 		else {
 			return -1;
@@ -66,7 +66,7 @@ public class DB {
 		ps.setInt(1,id);
 		ResultSet rs = ps.executeQuery();  //执行sql并赋值给rs
 		rs.next();
-		return rs.getString(1);	
+		return rs.getString("password");	
 	}
 	public static String getIcon(int pid) throws SQLException {
 		Connection conn=connect();
@@ -97,8 +97,52 @@ public class DB {
 		return null;
 	}
 	
+	//插入一局游戏记录
+	public  static int insertRecord(int rid,long begin_time,long continue_time,int winner,
+			int uid0,int uid1,int uid2,
+			int cards_left0,int cards_left1,int cards_left2,
+			int carrots_change0,int carrots_change1,int carrots_change2) 
+			throws SQLException{
+		Connection conn=connect();
+		String sql = "insert into game_record(rid, begin_time, continue_time, winner, uid0, uid1, uid2, cards_left0, cards_left1, cards_left2, carrots_change0, carrots_change1, carrots_change2) values(?,?,?,?,?,?,?,?,?,?,?,?,?);";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setInt(1,rid);
+		ps.setTimestamp(2,new Timestamp(begin_time));
+		ps.setLong(3,continue_time);
+		ps.setInt(4,winner);
+		ps.setInt(5,uid0);
+		ps.setInt(6,uid1);
+		ps.setInt(7,uid2);
+		ps.setInt(8,cards_left0);
+		ps.setInt(9,cards_left1);
+		ps.setInt(10,cards_left2);
+		ps.setInt(11,carrots_change0);
+		ps.setInt(12,carrots_change1);
+		ps.setInt(13,carrots_change2);
+		int result = ps.executeUpdate();
+		return result;
+	}
 	
+	//获取用户id的游戏记录
+	public static ResultSet getGameRecord(int pid) throws SQLException  {
+		Connection conn=connect();
+		String sql = "select * from game_record where uid0 = ? or uid1 = ? or uid2 = ? "; 
+		PreparedStatement ps = conn.prepareStatement(sql);  
+		ps.setInt(1,pid);
+		ps.setInt(2,pid);
+		ps.setInt(3,pid);
+		ResultSet rs = ps.executeQuery();  //执行sql并赋值给rs
+		return rs;
+	}
 	
-	
-
+	public static ResultSet getGameResult(int pid) throws SQLException  {
+		Connection conn=connect();
+		String sql = "select * from game_record where uid0 = ? or uid1 = ? or uid2 = ? order by gid desc limit 0, 1; "; 
+		PreparedStatement ps = conn.prepareStatement(sql);  
+		ps.setInt(1,pid);
+		ps.setInt(2,pid);
+		ps.setInt(3,pid);
+		ResultSet rs = ps.executeQuery();
+		return rs;
+	}
 }

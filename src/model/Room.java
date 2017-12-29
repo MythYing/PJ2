@@ -5,8 +5,6 @@ import java.util.Collections;
 
 import javax.websocket.Session;
 
-import websocket.RoomDataInform;
-
 public class Room{
 	public int[] pid=new int[3];
 	public Player[] players= new Player[3];
@@ -15,7 +13,7 @@ public class Room{
 	public Cards maxCards=new Cards(new String[0]);
 	public int maxPlayer = -1;		//pid
 	public Session[] playerSessions = new Session[3];
-	public boolean[] hasGotResult=null;
+	public long beginTime;
 	
 	public Room(int[] p) {
 		System.out.println("Room类已创建");
@@ -26,6 +24,7 @@ public class Room{
 		}
 		deal(players);
 		System.out.println("pid="+turn+"第一个出牌");
+		this.beginTime=System.currentTimeMillis();
 	}
 	// 发牌
 	public void deal(Player[] p) {
