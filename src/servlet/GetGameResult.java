@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -12,20 +13,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import model.Common;
-import model.GameResultData;
+import model.DB;
+import model.GameRecord;
 
 /**
  * Servlet implementation class GetGameResultData
  */
-@WebServlet("/GetGameResultData")
-public class GetGameResultData extends HttpServlet {
+@WebServlet("/GetGameResult")
+public class GetGameResult extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetGameResultData() {
+    public GetGameResult() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,14 +40,17 @@ public class GetGameResultData extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		int pid=(int) request.getSession().getAttribute("pid");
-		GameResultData gameResultData;
+		
 		try {
-			gameResultData = new GameResultData(pid);
-			Gson gson=new Gson();
-			String json=gson.toJson(gameResultData);
-			out.print(json);
-			out.flush();
-			
+			ResultSet rs=DB.getGameResult(pid);
+			String myName=DB.getUserName(pid);
+			if (rs.next()) {
+				GameRecord gameResult=new GameRecord(myName, rs);
+				Gson gson=new Gson();
+				String json=gson.toJson(gameResult);
+				out.print(json);
+				out.flush();
+			}			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	

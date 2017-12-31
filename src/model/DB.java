@@ -98,7 +98,7 @@ public class DB {
 	}
 	
 	//插入一局游戏记录
-	public  static int insertRecord(int rid,long begin_time,long continue_time,int winner,
+	public  static int insertRecord(int rid,long begin_time,int continue_time,int winner,
 			int uid0,int uid1,int uid2,
 			int cards_left0,int cards_left1,int cards_left2,
 			int carrots_change0,int carrots_change1,int carrots_change2) 
@@ -108,7 +108,7 @@ public class DB {
 		PreparedStatement ps = conn.prepareStatement(sql);
 		ps.setInt(1,rid);
 		ps.setTimestamp(2,new Timestamp(begin_time));
-		ps.setLong(3,continue_time);
+		ps.setInt(3,continue_time);
 		ps.setInt(4,winner);
 		ps.setInt(5,uid0);
 		ps.setInt(6,uid1);

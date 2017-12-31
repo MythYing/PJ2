@@ -1,11 +1,7 @@
 $(document).ready(function(){
-
+	getGameRecords();
 	// 设置异步为假
-	$.ajaxSetup (
-		{
-			async: false
-		}
-	);
+	// $.ajaxSetup ({async: false});
 	$("#content>div").eq(0).show().siblings().hide();
 	gameHallPage();
 	$("nav>ul>li").click(function(){
@@ -57,6 +53,8 @@ function refreshStatusOnce(){
 					$(window).attr('location','room.html');
 				}else if (obj.status=="Matching") {	
 					matchingPage();
+				}else {
+					getInfo();
 				}
 			}  // if
 		}
@@ -77,7 +75,7 @@ function refreshStatus(){
 					$(window).attr('location','room.html');
 				}else if (obj.status=="Matching") {	
 					$("#matching-info").text("正在匹配，已匹配人数："+obj.data);
-					window.setTimeout(refreshStatus,1000);
+					window.setTimeout(refreshStatus, 1000);
 				}
 			}  // if
 		}
@@ -97,4 +95,26 @@ function gameHallPage(){
 	$("#cancel-match").hide();
 	$("#matching-info").hide();
 	refreshStatusOnce();
+}
+
+function getInfo() {
+	$.post("GetInfo", {}, function(data, status){
+		obj=JSON.parse(data);
+		$("#name").text(obj.name);
+		$("#carrots>#quantity").text(obj.carrots);
+		$("#icon>img").attr("src", obj.icon);
+	})
+}
+
+
+function getGameRecords() {
+	$.post("GetGameRecords", {}, function(data, status){
+		var records=JSON.parse(data);
+		new Vue({
+			el: "#game-records-table",
+			data: {
+				records: records
+			}
+		})
+	})
 }

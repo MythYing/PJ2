@@ -85,13 +85,14 @@ public class PlayCards extends HttpServlet {
 						}
 					}
 					try {
-						DB.insertRecord(Common.getRid(pid), room.beginTime, endTime-room.beginTime, pid, room.pid[0], room.pid[1], room.pid[2], cardsLeft[0], cardsLeft[1], cardsLeft[2], carrotsChange[0], carrotsChange[1], carrotsChange[2]);
+						DB.insertRecord(Common.getRid(pid), room.beginTime, (int)(endTime-room.beginTime)/1000, pid, room.pid[0], room.pid[1], room.pid[2], cardsLeft[0], cardsLeft[1], cardsLeft[2], carrotsChange[0], carrotsChange[1], carrotsChange[2]);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
-					Common.gameOverRelease(pid);
+					
 					data.status="GameOver";
 					RoomDataInform.sendMessageAll(pid, "GameOver");
+					Common.gameOverRelease(pid);
 				}else {
 					Common.nextTurn(pid);
 					data.status="SuccessfulPlay";

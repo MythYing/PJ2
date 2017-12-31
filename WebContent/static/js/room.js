@@ -130,6 +130,12 @@ function getAndShowVisibleGameData() {
 			if (status == "success") {
 				var obj = JSON.parse(data);
 				showVisibleGameData(obj);
+				new Vue({
+					el: "#max-cards",
+					data: {
+						maxCards: obj.maxCards
+					}
+				})
 			}  // if
 		}
 	); // post
@@ -150,7 +156,7 @@ function showGameResultData(obj){
 	$("#game-result").show();
 }
 function getAndShowGameResultData() {
-	$.post("GetGameResultData", {},
+	$.post("GetGameResult", {},
 		function (data, status) {
 			if (status == "success") {
 				var obj = JSON.parse(data);

@@ -8,6 +8,7 @@
 	<title>欢迎来到PJ2 跑得快游戏!</title>
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 	<script src="static/js/lib/jquery.cookie.js"></script>
+	<script src="static/js/lib/vue.js"></script>
 	<script src="static/js/room.js"></script>
 	<link rel="stylesheet" href="static/css/common.css">
 	<link rel="stylesheet" href="static/css/room.css">
@@ -30,6 +31,13 @@
 			<div class="number-of-cards"></div>
 		</div>
 		<div id="player-i">
+			<div id="max-cards" v-bind:style="{width: (maxCards.length*28+58)+'px'}">
+				<ul>
+					<template v-for="card in maxCards">
+						<li><img v-bind:src="'static/images/cards/'+card+'.png'"></li>
+					</template>
+				</ul>
+			</div>
 			<div id="time-left">			
 				<i class="fa fa-clock-o"></i>	
 				<span id="time">20</span><span>s</span>			

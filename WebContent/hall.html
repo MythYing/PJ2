@@ -2,48 +2,95 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>欢迎来到PJ2 跑得快游戏!</title>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="static/js/lib/jquery.cookie.js"></script>
-    <script src="static/js/hall.js"></script>
-    <link rel="stylesheet" href="static/css/common.css">
-    <link rel="stylesheet" href="static/css/hall.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>欢迎来到PJ2 跑得快游戏!</title>
+	<link rel="stylesheet" href="static/css/common.css">
+	<link rel="stylesheet" href="static/css/hall.css">
+	<link rel="stylesheet" href="static/plugins/font-awesome/css/font-awesome.min.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="static/js/lib/jquery.cookie.js"></script>
+	<script src="static/js/lib/vue.js"></script>
+	<script src="static/js/hall.js"></script>
 </head>
 
 <body>
-    <header>
-        <div id="user-info">
-            <div class="icon">
-                <img src="/PJ2/static/images/icon/default.jpg">
-            </div>
-            <div id="name">用户名</div>
-            <div id="carrot">胡萝卜：2000</div>
-            <button id="logout-button"><i class="fa fa-power-off"></i></button>
-        </div>
-    </header>
-    <nav class="clearfix">
-        <ul>
-            <li>匹配大厅</li>
-            <li>游戏记录</li>
-            <li>商店</li>
-            <li>背包</li>
-        </ul>          
-    </nav>
-    <div id="content">
-        <div id="match"> 
-            <div id="matching-info"></div>  
-            <button id="cancel-match">取消匹配</button>
-            <button id="match-game">寻找对局</button>
-            <p id="match-status"></p>
-        </div>
-        <div id="game-history">游戏记录</div>
-        <div id="shop">商店</div>
-        <div id="bag">我的背包</div>
-    </div>
+	<header>
+		<div id="user-info">
+			<div id="icon">
+				<img src="/PJ2/static/images/icon/default.jpg" width="160px" height="160px">
+			</div>
+			<div id="name"></div>
+			<div id="carrots">胡萝卜: <span id="quantity"></span></div>
+			<button id="logout-button"><i class="fa fa-power-off"></i></button>
+		</div>
+	</header>
+	<nav class="clearfix">
+		<ul>
+			<li>匹配大厅</li>
+			<li>游戏记录</li>
+			<li>商店</li>
+			<li>背包</li>
+		</ul>          
+	</nav>
+	<div id="content">
+		<div id="match"> 
+			<div id="matching-info"></div>  
+			<button id="cancel-match">取消匹配</button>
+			<button id="match-game">寻找对局</button>
+			<p id="match-status"></p>
+		</div>
+		<div id="game-records">
+			<h4>游戏记录</h4>	
+			<table id="game-records-table">
+				<template v-for="record in records">
+					<tr>
+						<td class="win-or-lose">
+							<div v-if="record.winner==record.myName" class="win">胜利</div>
+							<div v-else class="lose">失败</div>
+							<div v-if="record.myCarrotsChange>0" class="positive">+{{record.myCarrotsChange}}</div>
+							<div v-else class="negative">{{record.myCarrotsChange}}</div>
+						</td>
+						<td class="user" v-bind:class="{ 'my-name': (record.myName==record.names[0]) }">
+							<div class="small-icon">
+								<img v-bind:src="record.icons[0]" width="60px" height="60px" />
+							</div>
+							<div class="name">{{record.names[0]}}</div>
+							<div class="cards-left">
+								<i class="fa fa-square-o"> {{record.cardsLeft[0]}}</i>
+							</div>	
+						</td>
+
+						<td class="user" v-bind:class="{ 'my-name': (record.myName==record.names[1]) }">
+							<div class="small-icon">
+								<img v-bind:src="record.icons[1]" width="60px" height="60px" />
+							</div>
+							<div class="name">{{record.names[1]}}</div>
+							<div class="cards-left">
+								<i class="fa fa-square-o"> {{record.cardsLeft[1]}}</i>
+							</div>
+						</td>
+						<td class="user" v-bind:class="{ 'my-name': (record.myName==record.names[2]) }">
+							<div class="small-icon">
+								<img v-bind:src="record.icons[2]" width="60px" height="60px" />
+							</div>
+							<div class="name">{{record.names[2]}}</div>
+							<div class="cards-left">
+								<i class="fa fa-square-o"> {{record.cardsLeft[2]}}</i>
+							</div>
+						</td>
+						<td class="time">
+							<div class="continue-time">{{record.continueTime}}</div>
+							<div class="begin-time">{{record.beginTime}}</div>
+						</td>
+					</tr>	
+				</template>	
+			</table>
+		</div>
+		<div id="shop">商店</div>
+		<div id="bag">我的背包</div>
+	</div>
    
 </body>
 

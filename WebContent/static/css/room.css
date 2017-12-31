@@ -130,3 +130,16 @@ body{
     background: rgba(0,0,0,0.5);
     color: white;
 }
+#max-cards{
+    margin: 0 auto;
+    height: 128px;
+}
+#max-cards li{
+    width: 28px;
+    height: 128px;
+    display: inline-block;
+}
+#max-cards img{
+    width: 86px;
+    height: 128px;
+}
