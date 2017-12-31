@@ -134,6 +134,9 @@ body{
     margin: 0 auto;
     height: 128px;
 }
+#max-cards{
+    text-align: center;
+}
 #max-cards li{
     width: 28px;
     height: 128px;

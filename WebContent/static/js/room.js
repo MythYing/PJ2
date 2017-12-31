@@ -1,5 +1,12 @@
 var cardsPlayed=new Array();
+var maxCardsVue;
 $(document).ready(function () {	
+	maxCardsVue=new Vue({
+		el: "#max-cards",
+		data: {
+			maxCards: ""
+		}
+	});
 	refreshStatusOnce();
 	$("#game-result").hide();
 	// ----监听事件开始----
@@ -95,7 +102,7 @@ $(document).ready(function () {
 	})
 
 
-})
+
 //----------------------------------------获取游戏数据--------------------------------------------------------------
 function getCardElement(card) {
 	var cardElement = '<button class="card" id="{card}"><img src="static/images/cards/{card}.png" /></button>';
@@ -124,18 +131,14 @@ function showVisibleGameData(obj) {
 		$("#time-left").show();
 	}
 }
+
 function getAndShowVisibleGameData() {
 	$.post("GetVisibleGameData", {},
 		function (data, status) {
 			if (status == "success") {
 				var obj = JSON.parse(data);
 				showVisibleGameData(obj);
-				new Vue({
-					el: "#max-cards",
-					data: {
-						maxCards: obj.maxCards
-					}
-				})
+				maxCardsVue.maxCards=obj.maxCards;
 			}  // if
 		}
 	); // post
@@ -191,3 +194,5 @@ function refreshStatusOnce(){
 		}
 	); // post
 }
+
+})
