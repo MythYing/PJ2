@@ -86,6 +86,9 @@ public class PlayCards extends HttpServlet {
 					}
 					try {
 						DB.insertRecord(Common.getRid(pid), room.beginTime, (int)(endTime-room.beginTime)/1000, pid, room.pid[0], room.pid[1], room.pid[2], cardsLeft[0], cardsLeft[1], cardsLeft[2], carrotsChange[0], carrotsChange[1], carrotsChange[2]);
+						for(int i=0;i<2;i++) {
+							DB.changeCarrots(room.pid[i], carrotsChange[i]);
+						}
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -110,6 +113,7 @@ public class PlayCards extends HttpServlet {
 			System.out.println(json);
 			out.print(json);
 			out.flush();
+			
 		}
 	}
 

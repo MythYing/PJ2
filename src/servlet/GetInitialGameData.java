@@ -2,7 +2,6 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -13,21 +12,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import model.Common;
-import model.DB;
-import model.GameRecord;
+import model.VisibleGameData;
 
 /**
- * Servlet implementation class GetGameResultData
+ * Servlet implementation class GetInitialGameData
  */
-@WebServlet("/GetGameResult")
-public class GetGameResult extends HttpServlet {
+@WebServlet("/GetInitialGameData")
+public class GetInitialGameData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetGameResult() {
+    public GetInitialGameData() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,32 +33,23 @@ public class GetGameResult extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
 		int pid=(int) request.getSession().getAttribute("pid");
 		
-//		int roomIndex=Common.getRoomIndex(pid);
-//		boolean[] hasGotResult=Common.getRoom(pid).hasGotResult;
-//		hasGotResult[roomIndex]=true;
-//		if (hasGotResult[0]&&hasGotResult[1]&&hasGotResult[2]) {
-//			Common.gameOverRelease(pid);
-//		}		
-//		
+		VisibleGameData data=null;
 		try {
-			ResultSet rs=DB.getGameResult(pid);
-			String myName=DB.getUserName(pid);
-			if (rs.next()) {
-				GameRecord gameResult=new GameRecord(myName, rs);
-				Gson gson=new Gson();
-				String json=gson.toJson(gameResult);
-				out.print(json);
-				out.flush();
-			}			
+			data = new VisibleGameData(pid, true);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}	
+		}
+		
+		Gson gson=new Gson();
+		String json=gson.toJson(data);
+		out.print(json);
+		out.flush();
+		
 	}
 
 }

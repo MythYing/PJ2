@@ -134,9 +134,9 @@ public class Common {
 	}
 	public static void gameOverRelease(int pid) {
 		int rid = getRid(pid);
-		playerPositionMap.remove(getRoom(pid).pid[0]);
-		playerPositionMap.remove(getRoom(pid).pid[1]);
-		playerPositionMap.remove(getRoom(pid).pid[2]);
+		playerPositionMap.remove(rooms[rid].pid[0]);
+		playerPositionMap.remove(rooms[rid].pid[1]);
+		playerPositionMap.remove(rooms[rid].pid[2]);
 		rooms[rid]=null;
 		roomAvailable.add(rid);
 	}

@@ -8,8 +8,8 @@
 	<title>欢迎来到PJ2 跑得快游戏!</title>
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 	<script src="static/js/lib/jquery.cookie.js"></script>
+	<script src="static/js/lib/vue.js"></script>
 	<script src="static/js/room.js"></script>
-	<link rel="stylesheet" href="static/plugins/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="static/css/common.css">
 	<link rel="stylesheet" href="static/css/room.css">
 </head>
@@ -18,34 +18,35 @@
 	<div id="play-room">
 		<div id="player-left">
 			<div class="icon">
-				<img src="">
+				<img src="/PJ2/static/images/icon/default.jpg">
 			</div>
 			<div class="name"></div>
 			<div class="number-of-cards"></div>
 		</div>
 		<div id="player-right">
-			<div class="number-of-cards"></div>
 			<div class="icon">
-				<img src="">
+				<img src="/PJ2/static/images/icon/default.jpg">
 			</div>
 			<div class="name"></div>
-		</div>
-		<div id="player-my">
 			<div class="number-of-cards"></div>
-			<div class="icon">
-				<img src="">
-			</div>
-			<div class="name"></div>
 		</div>
 		<div id="player-i">
+			<template v-if="gameData.maxCards!=null">
+				<div id="max-cards" v-bind:style="{width: (gameData.maxCards.length*28+58)+'px'}">
+					<ul>
+						<template v-for="card in gameData.maxCards">
+							<li><img v-bind:src="'static/images/cards/'+card+'.png'"></li>
+						</template>
+					</ul>
+				</div>
+			</template>
 			<div id="time-left">			
 				<i class="fa fa-clock-o"></i>	
 				<span id="time">20</span><span>s</span>			
 			</div>
-			<div id="max-cards">
-				<ul></ul>
+			<div id="cards" v-bind:style="{width: (gameData.cardsInMyHand.length*50+122)+'px'}">			
+				<button v-for="card in gameData.cardsInMyHand" class="card" v-bind:id="card" v-on:click="cardClick"><img v-bind:src="'static/images/cards/'+card+'.png'" /></button>
 			</div>
-			<div id="cards"></div>
 			<div id="my-turn-module">				
 				<button id="play-card">出牌</button>
 				<button id="pass">PASS</button>
@@ -53,12 +54,11 @@
 		</div>	
 	</div>
 	<div id="game-result">
-		<div id="result-container">
-			<h1>游戏结束</h1>
-			<div id="my-carrot-change">
-			<table id="result-table"></table>
-			<button id="game-result-OK">确定</button>
-		</div>
+		<div id="my-carrot-change"></div>
+		<table id="result-table">
+			
+		</table>
+		<div id="OK">确定</div>
 	</div>
 </body>
 

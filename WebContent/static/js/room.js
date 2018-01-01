@@ -1,12 +1,6 @@
 var cardsPlayed=new Array();
-var maxCardsVue;
+var maxCards;
 $(document).ready(function () {	
-	maxCardsVue=new Vue({
-		el: "#max-cards",
-		data: {
-			maxCards: ""
-		}
-	});
 	refreshStatusOnce();
 	$("#game-result").hide();
 	// ----监听事件开始----
@@ -101,6 +95,9 @@ $(document).ready(function () {
 		)
 	})
 
+	$("#game-result-OK").click(function(){
+		$(window).attr('location','hall.html');
+	})
 
 
 //----------------------------------------获取游戏数据--------------------------------------------------------------
@@ -109,10 +106,21 @@ function getCardElement(card) {
 	cardElement = cardElement.replace(/\{card\}/g, card);
 	return cardElement;
 }
-function showVisibleGameData(obj) {
+function showStaticGameData(obj) {
+	$("#player-my>.name").text(obj.myName);
 	$("#player-left>.name").text(obj.playerLeftName);
-	$("#player-left>.number-of-cards").text(obj.playerLeftNumberOfCards);
 	$("#player-right>.name").text(obj.playerRightName);
+	$("#player-my>.icon>img").attr("src", obj.myIcon);
+	$("#player-left>.icon>img").attr("src", obj.playerLeftIcon);
+	$("#player-right>.icon>img").attr("src", obj.playerRightIcon);
+	$("#player-my>.number-of-cards").css("background-image", "url("+obj.myCardSkin+")");
+	$("#player-left>.number-of-cards").css("background-image", "url("+obj.playerLeftCardSkin+")");
+	$("#player-right>.number-of-cards").css("background-image", "url("+obj.playerRightCardSkin+")");
+
+}
+function showVisibleGameData(obj) {
+	$("#player-my>.number-of-cards").text(obj.cardsInMyHand.length);
+	$("#player-left>.number-of-cards").text(obj.playerLeftNumberOfCards);
 	$("#player-right>.number-of-cards").text(obj.playerRightNumberOfCards);
 	$("#cards").css("width", (obj.cardsInMyHand.length * 50 + 122).toString() + "px");
 	$("#cards").html("");
@@ -121,6 +129,17 @@ function showVisibleGameData(obj) {
 		var cardElement = getCardElement(obj.cardsInMyHand[i]);
 		$("#cards").append(cardElement);
 	}
+	// 最大牌
+	if (obj.maxCards!=null) {
+		$("#max-cards>ul").html("");
+		$("#max-cards").css("width", (obj.maxCards.length*28+58)+"px");
+		for (const i in obj.maxCards) {
+			var cardElement='<li><img src="static/images/cards/{card}.png"></li>';
+			cardElement = cardElement.replace(/\{card\}/g, obj.maxCards[i]);
+			$("#max-cards>ul").append(cardElement);
+		}
+	}
+	
 	if (obj.myId!= obj.turn) {
 		$("#play-card").attr("disabled", "disabled");
 		$("#pass").attr("disabled", "disabled");
@@ -138,22 +157,30 @@ function getAndShowVisibleGameData() {
 			if (status == "success") {
 				var obj = JSON.parse(data);
 				showVisibleGameData(obj);
-				maxCardsVue.maxCards=obj.maxCards;
 			}  // if
 		}
 	); // post
 }
+function getInitialGameData(){
+	$.post("GetInitialGameData", {},
+		function (data, status) {			
+			var obj = JSON.parse(data);
+			showStaticGameData(obj);
+			showVisibleGameData(obj);
+		}
+	); // post
+}
 //------------------------------------游戏结束------------------------------------------------------
-function getResultElement(roomIndex, name, carrotChange) {
+function getResultElement(roomIndex, name, carrotsChange) {
 	var resultElement = '<tr><td>{roomIndex}</td><td>{name}</td><td>{carrotChange}</td>';
 	resultElement = resultElement.replace(/\{roomIndex\}/g, roomIndex);
 	resultElement = resultElement.replace(/\{name\}/g, name);
-	resultElement = resultElement.replace(/\{carrotChange\}/g, carrotChange);
+	resultElement = resultElement.replace(/\{carrotChange\}/g, carrotsChange);
 	return resultElement;
 }
 function showGameResultData(obj){
 	for(i=0;i<3;i++){
-		var resultElement=getResultElement(i, obj.names[i], obj.carrotChanges[i]);
+		var resultElement=getResultElement(i, obj.names[i], obj.carrotsChange[i]);
 		$("#result-table").append(resultElement);
 	}
 	$("#game-result").show();
@@ -185,7 +212,7 @@ function refreshStatusOnce(){
 						$(window).attr('location','hall.html');
 						break;
 					case "Gaming":
-						getAndShowVisibleGameData();				
+						getInitialGameData();				
 						break;
 					default:
 						break;
