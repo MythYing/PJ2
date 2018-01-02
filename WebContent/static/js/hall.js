@@ -9,8 +9,6 @@ $(document).ready(function(){
 		$("#content>div").eq(index).show().siblings().hide();
 	})
 
-	$("#pid").text("欢迎您");
-
 	//  寻找对局
 	$("#match-game").click(function(){
 		$.post("MatchGame",
@@ -116,5 +114,9 @@ function getGameRecords() {
 				records: records
 			}
 		})
+		$("#game-records-table").mCustomScrollbar({
+			axis: "y",
+			theme: "inset"
+		});
 	})
 }

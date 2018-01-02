@@ -102,10 +102,13 @@ nav li:hover {
 table#game-records-table {
     border-collapse: collapse;
     border-spacing: 0;
+    height: 600px;
+    width: 946px;
+    display: block;
+    background: rgba(128, 128, 128, 0.1);
 }
 table#game-records-table tr {
     height: 100px;
-    border: 1px solid transparent;
     border-top: 1px solid wheat;
     border-bottom: 1px solid wheat;
     border-left: 8px solid transparent;
@@ -117,6 +120,9 @@ table#game-records-table tr:hover {
 table#game-records-table td.win-or-lose {
     position: relative;
     width: 160px;
+}
+td{
+    vertical-align: middle;
 }
 td.win-or-lose .win {
     color: darkgreen;
