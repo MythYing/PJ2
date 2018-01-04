@@ -189,4 +189,7 @@ public class DB {
 		}
 		return cardSkins;
 	}
+	public static void buy(int pid, int item) {
+		
+	}
 }

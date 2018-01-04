@@ -4,8 +4,7 @@ $(document).ready(function(){
 		el: "#shop",
 		data: {
 			type: "icon",
-			width: "160px",
-			height: "160px"
+			itemClass: "item-icon"
 		},
 		computed: {
 			items: function(){
@@ -26,18 +25,20 @@ $(document).ready(function(){
 			type: function(newType){
 				switch (newType) {
 					case "icon":
-						this.width="160px";
-						this.height="160px";
+						this.itemClass="item-icon";
 						break;
 					case "card-skin":
-						this.width="128px";
-						this.height="192px";
+						this.itemClass="item-card-skin";
 						break;
 					default:
 						break;
 				}
 			}
 		}
+	});
+	$("#items").mCustomScrollbar({
+		axis: "y",
+		theme: "inset"
 	});
 	// 设置异步为假
 	// $.ajaxSetup ({async: false});
@@ -74,6 +75,22 @@ $(document).ready(function(){
 		$(window).attr('location','index.html');
 	})
 
+	// --------------------------------商店------------------------------------------
+	$("#items li").mouseenter(function(){
+		$(this).children(".buy").show();
+	}).mouseleave(function(){
+		$(this).children(".buy").hide();
+	})
+
+	$(".buy").click(function(){
+		$.post("Buy", {item: $(this).parent().attr("id").}, function(data, status){
+			if(data=="Success"){
+				alert("购买成功！");
+			}else{
+				alert("购买失败！请检查\n1.金币是否充足\n2.是否已拥有");
+			}
+		})
+	})
 });
 
 function refreshStatusOnce(){
@@ -159,4 +176,5 @@ function getGameRecords() {
 		});
 	})
 }
+
 

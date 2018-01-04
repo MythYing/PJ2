@@ -102,8 +102,8 @@ nav li:hover {
 table#game-records-table {
     border-collapse: collapse;
     border-spacing: 0;
-    height: 600px;
     width: 946px;
+    height: 580px;
     display: block;
     background: rgba(128, 128, 128, 0.1);
 }
@@ -111,10 +111,8 @@ table#game-records-table tr {
     height: 100px;
     border-top: 1px solid wheat;
     border-bottom: 1px solid wheat;
-    border-left: 8px solid transparent;
 }
 table#game-records-table tr:hover {
-    border-left: 8px solid wheat;
     background: rgba(184, 134, 11, 0.1);
 }
 table#game-records-table td.win-or-lose {
@@ -201,20 +199,52 @@ td.time .begin-time {
     padding-left: 20px;
     height: 40px;
     line-height: 40px;
+    cursor: pointer;
 }
-#shop #items{
+.type-click {
+    font-weight: bold;
+    text-shadow: 0px 0px 20px greenyellow;
+}
+#shop #items {
     width: 80%;
+    height: 580px;
     float: left;
+    background: rgba(128, 128, 128, 0.1);
 }
 #items li {
     list-style: none;
     float: left;
     width: 23%;
-    height: 320px;
-    border: 1px solid wheat;
     margin: 1%;
+    border: 1px solid wheat;
+    padding: 10px 0;
+    text-align: center;
+    color: wheat;
+    text-shadow: 1px 1px 1px black;
 }
-#items img{
-    display: block;
-    margin: 0 auto;
+#items li:hover {
+    background: rgba(184, 134, 11, 0.1);
+}
+.item-icon{
+    width: 160px;
+    height: 160px;
+}
+.item-card-skin{
+    width: 128px;
+    height: 192px;
+    border-radius: 4px;
+}
+button.buy {
+    display: none;
+    border: 1px solid wheat;
+    border-radius: 4px;
+    padding: 0 4px;
+    background: transparent;
+    color: wheat;
+    cursor: pointer;
+}
+button.buy:hover {
+    border: 1px solid goldenrod;
+    background: goldenrod;
+    color: white;
 }
