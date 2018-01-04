@@ -1,5 +1,44 @@
 $(document).ready(function(){
 	getGameRecords();
+	var itemsVue = new Vue({
+		el: "#shop",
+		data: {
+			type: "icon",
+			width: "160px",
+			height: "160px"
+		},
+		computed: {
+			items: function(){
+				var obj;
+				$.ajax({
+					type: "POST",
+					url: "GetShopItem",
+					data: {type: this.type},
+					async: false,
+					success: function(data){
+						obj = JSON.parse(data);
+					}
+				});
+				return obj;
+			}
+		},
+		watch: {
+			type: function(newType){
+				switch (newType) {
+					case "icon":
+						this.width="160px";
+						this.height="160px";
+						break;
+					case "card-skin":
+						this.width="128px";
+						this.height="192px";
+						break;
+					default:
+						break;
+				}
+			}
+		}
+	});
 	// 设置异步为假
 	// $.ajaxSetup ({async: false});
 	$("#content>div").eq(0).show().siblings().hide();
@@ -120,3 +159,4 @@ function getGameRecords() {
 		});
 	})
 }
+

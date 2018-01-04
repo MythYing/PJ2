@@ -191,3 +191,30 @@ td.time .begin-time {
     text-align: center;
     font-size: 14px;
 }
+#shop #type{
+    width: 20%;
+    float: left;
+    padding-top: 20px
+}
+#type li {
+    list-style: none;
+    padding-left: 20px;
+    height: 40px;
+    line-height: 40px;
+}
+#shop #items{
+    width: 80%;
+    float: left;
+}
+#items li {
+    list-style: none;
+    float: left;
+    width: 23%;
+    height: 320px;
+    border: 1px solid wheat;
+    margin: 1%;
+}
+#items img{
+    display: block;
+    margin: 0 auto;
+}

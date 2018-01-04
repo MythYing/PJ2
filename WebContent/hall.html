@@ -28,7 +28,7 @@
 			<button id="logout-button"><i class="fa fa-power-off"></i></button>
 		</div>
 	</header>
-	<nav class="clearfix">
+	<nav class="clearfix" id="nav">
 		<ul>
 			<li>匹配大厅</li>
 			<li>游戏记录</li>
@@ -90,10 +90,20 @@
 				</template>	
 			</table>
 		</div>
-		<div id="shop">商店</div>
+		<div id="shop">
+			<h4>商店</h4>
+			<ul id="type">
+				<li id="icon" v-on:click="type='icon'">图标</li>
+				<li id="card-skin" v-on:click="type='card-skin'">卡片皮肤</li>
+			</ul>
+			<ul id="items">
+				<li v-for="item in items">
+					<img v-bind:src="item.fileName" v-bind:width="width" v-bind:height="height">
+					{{item.name}}
+				</li>
+			</ul>
+		</div>
 		<div id="bag">我的背包</div>
 	</div>
-   
 </body>
-
 </html>

@@ -23,15 +23,15 @@ public class GameRecord {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		beginTime=sdf.format(timestamp);
 		continueTime=Tools.toTimeString(rs.getInt("continue_time"));
-		winner=DB.getUserName(rs.getInt("winner"));
+		winner=rs.getString("winner");
 		// 用户名
-		names[0]=DB.getUserName(rs.getInt("uid0"));
-		names[1]=DB.getUserName(rs.getInt("uid1"));
-		names[2]=DB.getUserName(rs.getInt("uid2"));
+		names[0]=rs.getString("user0");
+		names[1]=rs.getString("user1");
+		names[2]=rs.getString("user2");
 		// 头像
-		icons[0]=DB.getIcon(rs.getInt("uid0"));
-		icons[1]=DB.getIcon(rs.getInt("uid1"));
-		icons[2]=DB.getIcon(rs.getInt("uid2"));
+		icons[0]="/PJ2/static/images/icon/" + rs.getString("icon0");
+		icons[1]="/PJ2/static/images/icon/" + rs.getString("icon1");
+		icons[2]="/PJ2/static/images/icon/" + rs.getString("icon2");
 		// 卡片剩余数量
 		cardsLeft[0]=rs.getInt("cards_left0");
 		cardsLeft[1]=rs.getInt("cards_left1");
@@ -43,6 +43,7 @@ public class GameRecord {
 		for(int i=0;i<3;i++) {
 			if (names[i].equals(myName)) {
 				myCarrotsChange=carrotsChange[i];
+				break;
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import com.sun.crypto.provider.RSACipher;
 
@@ -127,22 +128,18 @@ public class DB {
 	// 获取用户id的游戏记录
 	public static ResultSet getGameRecord(int pid) throws SQLException {
 		Connection conn = connect();
-		String sql = "select * from game_record where uid0 = ? or uid1 = ? or uid2 = ? ";
+		String sql = "call getGameRecord(?);";
 		PreparedStatement ps = conn.prepareStatement(sql);
 		ps.setInt(1, pid);
-		ps.setInt(2, pid);
-		ps.setInt(3, pid);
 		ResultSet rs = ps.executeQuery(); // 执行sql并赋值给rs
 		return rs;
 	}
 
 	public static ResultSet getGameResult(int pid) throws SQLException {
 		Connection conn = connect();
-		String sql = "select * from game_record where uid0 = ? or uid1 = ? or uid2 = ? order by gid desc limit 0, 1; ";
+		String sql = "call getGameResult(?); ";
 		PreparedStatement ps = conn.prepareStatement(sql);
 		ps.setInt(1, pid);
-		ps.setInt(2, pid);
-		ps.setInt(3, pid);
 		ResultSet rs = ps.executeQuery();
 		return rs;
 	}
@@ -160,21 +157,36 @@ public class DB {
 		}
 	}
 
-	public static int changeCarrots(int pid, int change) throws SQLException {
+	public static int changeCarrots(int pid, int quantity) throws SQLException {
 		Connection conn = connect();
-		String sql1 = "select carrots from user where id = ?;";
-		PreparedStatement ps1 = conn.prepareStatement(sql1);
-		ps1.setInt(1, pid);
-		ResultSet rs1 = ps1.executeQuery();
-		rs1.next();
-		int carrots = rs1.getInt("carrots");
-		carrots += change;
-
-		String sql = "update user set carrots = ? where id = ?;";
+		String sql = "call changeCarrots(?, ?);";
 		PreparedStatement ps = conn.prepareStatement(sql);
-		ps.setInt(1, carrots);
-		ps.setInt(2, pid);
+		ps.setInt(1, pid);
+		ps.setInt(2, quantity);
 		int result = ps.executeUpdate();
 		return result;
+	}
+	
+	public static ArrayList<ShopItem> getShopIcons() throws SQLException {
+		Connection conn = connect();
+		String sql = "select shop.id id, icon.name name, icon.file_name file_name, price from icon, shop where type=1 and icon.id=item_id;";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+		ArrayList<ShopItem> icons=new ArrayList<>();
+		while (rs.next()) {
+			icons.add(new ShopItem(rs.getInt("id"), rs.getString("name"), "/PJ2/static/images/icon/"+rs.getString("file_name"), rs.getInt("price")));
+		}
+		return icons;
+	}
+	public static ArrayList<ShopItem> getShopCardSkins() throws SQLException {
+		Connection conn = connect();
+		String sql = "select shop.id id, card_skin.name name, card_skin.file_name file_name, price from card_skin, shop where type=2 and card_skin.id=item_id;";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+		ArrayList<ShopItem> cardSkins=new ArrayList<>();
+		while (rs.next()) {
+			cardSkins.add(new ShopItem(rs.getInt("id"), rs.getString("name"), "/PJ2/static/images/card_skin/"+rs.getString("file_name"), rs.getInt("price")));
+		}
+		return cardSkins;
 	}
 }
