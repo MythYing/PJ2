@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.DB;
+
 /**
  * Servlet implementation class Buy
  */
@@ -34,9 +36,15 @@ public class Buy extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		int pid=(int) request.getSession().getAttribute("pid");
-		String itemString=request.getParameter("item");
-		Scanner input=new Scanner(itemString);
-		int item=input.nextInt();
+		int item=Integer.valueOf(request.getParameter("item"));
+		int myCarrots=DB.getCarrots(pid);
+		int price=DB.getItemPrice(item);
+		if (myCarrots>=price) {
+			DB.changeCarrots(pid, -price);
+			DB.addItemToBag(pid, item);
+		}
+		out.print("Success");
+		out.flush();
 	}
 
 }

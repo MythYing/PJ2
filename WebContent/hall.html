@@ -105,7 +105,20 @@
 				</li>
 			</ul>
 		</div>
-		<div id="bag">我的背包</div>
+		<div id="bag">
+			<h4>背包</h4>
+			<ul id="type">
+					<li id="icon" v-on:click="type='icon'" v-bind:class="{'type-click': type=='icon'}">图标</li>
+					<li id="card-skin" v-on:click="type='card-skin'" v-bind:class="{'type-click': type=='card-skin'}">卡片皮肤</li>
+				</ul>
+				<ul id="items">
+					<li v-for="item in items" v-bind:id="'item'+'-'+item.id">
+						<img v-bind:src="item.fileName" v-bind:class="itemClass"><br>
+						<span>{{item.name}}</span><br>
+						<button class="use">使用</button>
+					</li>
+				</ul>
+		</div>
 	</div>
 </body>
 </html>

@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	getGameRecords();
-	var itemsVue = new Vue({
+	var shopVue = new Vue({
 		el: "#shop",
 		data: {
 			type: "icon",
@@ -12,6 +12,42 @@ $(document).ready(function(){
 				$.ajax({
 					type: "POST",
 					url: "GetShopItem",
+					data: {type: this.type},
+					async: false,
+					success: function(data){
+						obj = JSON.parse(data);
+					}
+				});
+				return obj;
+			}
+		},
+		watch: {
+			type: function(newType){
+				switch (newType) {
+					case "icon":
+						this.itemClass="item-icon";
+						break;
+					case "card-skin":
+						this.itemClass="item-card-skin";
+						break;
+					default:
+						break;
+				}
+			}
+		}
+	});
+	var bagVue = new Vue({
+		el: "#bag",
+		data: {
+			type: "icon",
+			itemClass: "item-icon"
+		},
+		computed: {
+			items: function(){
+				var obj;
+				$.ajax({
+					type: "POST",
+					url: "GetBagItem",
 					data: {type: this.type},
 					async: false,
 					success: function(data){
@@ -83,7 +119,8 @@ $(document).ready(function(){
 	})
 
 	$(".buy").click(function(){
-		$.post("Buy", {item: $(this).parent().attr("id").}, function(data, status){
+		var item=$(this).parent().attr("id").match(/\d+/);
+		$.post("Buy", {item: item[0]}, function(data, status){
 			if(data=="Success"){
 				alert("购买成功！");
 			}else{
