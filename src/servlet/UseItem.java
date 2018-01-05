@@ -13,16 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 import model.DB;
 
 /**
- * Servlet implementation class Register
+ * Servlet implementation class UseItem
  */
-@WebServlet("/Register")
-public class Register extends HttpServlet {
+@WebServlet("/UseItem")
+public class UseItem extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Register() {
+    public UseItem() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,22 +32,19 @@ public class Register extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		// PrintWriter out = response.getWriter();	
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		String name = request.getParameter("name");
-		String password = request.getParameter("password");
+		int pid=(int) request.getSession().getAttribute("pid");
+		int item=Integer.valueOf(request.getParameter("item"));
 		
 		try {
-			if (!DB.hasName(name)) {
-				DB.register(name, password);
+			if (DB.useItem(pid, item)) {
 				out.print("Success");
-				out.flush();
 			}else {
 				out.print("Failed");
-				out.flush();
 			}
+			out.flush();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

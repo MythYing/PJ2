@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,19 +11,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
+import model.BagItem;
 import model.DB;
+import model.ShopItem;
 
 /**
- * Servlet implementation class Register
+ * Servlet implementation class GetBagItem
  */
-@WebServlet("/Register")
-public class Register extends HttpServlet {
+@WebServlet("/GetBagItem")
+public class GetBagItem extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Register() {
+    public GetBagItem() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,25 +37,33 @@ public class Register extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		// PrintWriter out = response.getWriter();	
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		String name = request.getParameter("name");
-		String password = request.getParameter("password");
-		
-		try {
-			if (!DB.hasName(name)) {
-				DB.register(name, password);
-				out.print("Success");
-				out.flush();
-			}else {
-				out.print("Failed");
-				out.flush();
+		int pid=(int) request.getSession().getAttribute("pid");
+		String type = request.getParameter("type");
+		ArrayList<BagItem> items = null;
+			try {
+				switch(type) {
+				case "icon":
+					items=DB.getBagIcons(pid);
+					break;
+				case "card-skin":
+					items=DB.getBagCardSkins(pid);
+					break;
+				default:
+					break;
+				}
+				
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+			
+		Gson gson=new Gson();
+		String json=gson.toJson(items);
+		out.print(json);
+		out.flush();
 	}
 
 }

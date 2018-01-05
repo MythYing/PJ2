@@ -1,6 +1,9 @@
 var cardsPlayed=new Array();
 var maxCards;
-$(document).ready(function () {	
+var timeLeft;
+var timeStop=false;
+$(document).ready(function () {
+	
 	refreshStatusOnce();
 	$("#game-result").hide();
 	// ----监听事件开始----
@@ -19,9 +22,11 @@ $(document).ready(function () {
 	websocket.onmessage = function(event){
 		switch (event.data) {
 			case "Refresh":
+				timeStop=true;
 				getAndShowVisibleGameData();
 				break;
 			case "GameOver":
+				timeStop=true;
 				getAndShowGameResultData();
 				break;
 			default:
@@ -50,8 +55,7 @@ $(document).ready(function () {
 			},
 			function (data, status) {
 				if (status=="success") {
-					var obj=JSON.parse(data);
-					switch (obj.status) {
+					switch (data) {
 						case "GameOver":
 							// 游戏结束
 							break;
@@ -59,7 +63,7 @@ $(document).ready(function () {
 							// showVisibleGameData();
 							break;
 						case "FailedPlay":
-							alert("出牌不合法");
+							messageBox("出牌不合法");
 							break;
 						default:
 							break;
@@ -76,8 +80,7 @@ $(document).ready(function () {
 			},
 			function (data, status) {
 				if (status=="success") {
-					var obj=JSON.parse(data);
-					switch (obj.status) {
+					switch (data) {
 						case "GameOver":
 							// 游戏结束
 							break;
@@ -85,7 +88,7 @@ $(document).ready(function () {
 							// showVisibleGameData();
 							break;
 						case "FailedPlay":
-							alert("出牌不合法");
+							messageBox("出牌不合法");
 							break;
 						default:
 							break;
@@ -147,7 +150,23 @@ function showVisibleGameData(obj) {
 	} else {
 		$("#play-card").removeAttr("disabled");
 		$("#pass").removeAttr("disabled");
+		timeStop=false;
+		timeLeft=30;
+		$("#time-left>#time").text(timeLeft);
 		$("#time-left").show();
+		window.setTimeout(reduceTime, 1000);
+	}
+}
+
+function reduceTime(){
+	timeLeft=timeLeft-1;
+	$("#time-left>#time").text(timeLeft);
+	if (timeStop) {
+		// 不用做任何事
+	}else if (timeLeft<=0) {
+		$("#pass").click();
+	}else{
+		window.setTimeout(reduceTime, 1000);
 	}
 }
 
@@ -172,10 +191,10 @@ function getInitialGameData(){
 }
 //------------------------------------游戏结束------------------------------------------------------
 function getResultElement(roomIndex, name, carrotsChange) {
-	var resultElement = '<tr><td>{roomIndex}</td><td>{name}</td><td>{carrotChange}</td>';
+	var resultElement = '<tr><td>{roomIndex}</td><td>{name}</td><td class="carrots-change">{carrotsChange}</td>';
 	resultElement = resultElement.replace(/\{roomIndex\}/g, roomIndex);
 	resultElement = resultElement.replace(/\{name\}/g, name);
-	resultElement = resultElement.replace(/\{carrotChange\}/g, carrotsChange);
+	resultElement = resultElement.replace(/\{carrotsChange\}/g, (carrotsChange>0)?("+"+carrotsChange):carrotsChange);
 	return resultElement;
 }
 function showGameResultData(obj){
@@ -204,7 +223,7 @@ function refreshStatusOnce(){
 				obj=JSON.parse(data);
 				switch (obj.status) {
 					case "NotLogined":
-						alert("您还未登陆，正在转跳至登录页面！")
+						messageBox("您还未登陆，正在转跳至登录页面！")
 						$(window).attr('location','login.html');
 						break;
 					case "Matching":
@@ -223,3 +242,11 @@ function refreshStatusOnce(){
 }
 
 })
+
+
+function messageBox(message){
+	$("#message-box").text(message).show();
+	window.setTimeout(function(){
+		$("#message-box").fadeOut(500)
+	}, 2000);
+}

@@ -112,19 +112,32 @@ $(document).ready(function(){
 	})
 
 	// --------------------------------商店------------------------------------------
-	$("#items li").mouseenter(function(){
-		$(this).children(".buy").show();
-	}).mouseleave(function(){
-		$(this).children(".buy").hide();
+	$(".items").on("mouseenter", "li",function(){
+		$(this).children("button").show();
+	}).on("mouseleave", "li",function(){
+		$(this).children("button").hide();
+	})
+	
+	$(".items").on("click", ".buy", function(){
+		var item=$(this).parent().attr("id").match(/\d+/);
+		$.post("BuyItem", {item: item[0]}, function(data, status){
+			if(data=="Success"){
+				messageBox("购买成功!");
+				getInfo();
+			}else{
+				messageBox("购买失败！请检查:\n1.金币是否充足\n2.是否已拥有");
+			}
+		})
 	})
 
-	$(".buy").click(function(){
+	$(".items").on("click", ".use", function(){
 		var item=$(this).parent().attr("id").match(/\d+/);
-		$.post("Buy", {item: item[0]}, function(data, status){
+		$.post("UseItem", {item: item[0]}, function(data, status){
 			if(data=="Success"){
-				alert("购买成功！");
+				messageBox("使用成功！");
+				getInfo();
 			}else{
-				alert("购买失败！请检查\n1.金币是否充足\n2.是否已拥有");
+				messageBox("使用失败！请检查:\n1.是否已拥有");
 			}
 		})
 	})
@@ -137,7 +150,7 @@ function refreshStatusOnce(){
 			if (status == "success") {
 				obj=JSON.parse(data);
 				if (obj.status=="NotLogined") {
-					alert("您还未登陆，正在转跳至登录页面！")
+					messageBox("您还未登陆，正在转跳至登录页面！")
 					$(window).attr('location','login.html');
 				}else if(obj.status=="Gaming"){
 					// 转跳游戏界面
@@ -159,7 +172,7 @@ function refreshStatus(){
 			if (status == "success") {
 				obj=JSON.parse(data);
 				if (obj.status=="NotLogined") {
-					alert("您还未登陆，正在转跳至登录页面！")
+					messageBox("您还未登陆，正在转跳至登录页面！")
 					$(window).attr('location','login.html');
 				}else if(obj.status=="Gaming"){
 					// 转跳游戏界面
@@ -215,3 +228,9 @@ function getGameRecords() {
 }
 
 
+function messageBox(message){
+	$("#message-box").text(message).show();
+	window.setTimeout(function(){
+		$("#message-box").fadeOut(500)
+	}, 2000);
+}

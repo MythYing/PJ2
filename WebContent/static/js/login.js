@@ -9,10 +9,10 @@ $(document).ready(function(){
 			function (data, status) {
 				if (status == "success") {
 					if (data!=-1) {
-						alert("登陆成功，欢迎您，" + data);
+						messageBox("登陆成功，欢迎您，" + data);
 						$(window).attr('location','hall.html');
 					}else{
-						alert("登录失败！");
+						messageBox("登录失败！");
 					}
 					
 				}  // if
@@ -28,3 +28,11 @@ $(document).ready(function(){
 		}	
 	  });
 });
+
+
+function messageBox(message){
+	$("#message-box").text(message).show();
+	window.setTimeout(function(){
+		$("#message-box").fadeOut(500)
+	}, 2000);
+}

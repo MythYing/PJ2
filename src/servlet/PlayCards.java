@@ -58,6 +58,7 @@ public class PlayCards extends HttpServlet {
 		Cards cardsPlayed = new Cards(cardsStringArray);
 		Data data = new Data();
 		// 如果合法
+		System.out.println(pid);
 		if(pid==Common.getTurn(pid)) {
 			boolean result = Rules.successful(pid, cardsPlayed);
 			if (result) {
@@ -70,6 +71,9 @@ public class PlayCards extends HttpServlet {
 				}
 				// 游戏结束判断
 				if(Common.getPlayer(pid).cardsInHand.size()==0) {
+					out.print("GameOver");
+					out.flush();
+					System.out.println("GameOver");
 					Room room=Common.getRoom(pid);
 					long endTime=System.currentTimeMillis();
 					int[] cardsLeft=new int[3];
@@ -93,26 +97,23 @@ public class PlayCards extends HttpServlet {
 						e.printStackTrace();
 					}
 					
-					data.status="GameOver";
 					RoomDataInform.sendMessageAll(pid, "GameOver");
 					Common.gameOverRelease(pid);
 				}else {
 					Common.nextTurn(pid);
-					data.status="SuccessfulPlay";
 					RoomDataInform.sendMessageAll(pid, "Refresh");
+					out.print("SuccessfulPlay");
+					out.flush();
+					System.out.println("SuccessfulPlay");
 				}
 			}else {
-				data.status="FailedPlay";
+				out.print("FailedPlay");
+				out.flush();
+				System.out.println("FailedPlay");
 			}
 			// 调试输出最大玩家
 //			Room room=Common.getRoom(pid);
 //			System.out.println("最大玩家："+room.maxPlayer);
-			
-			Gson gson=new Gson();
-			String json = gson.toJson(data);
-			System.out.println(json);
-			out.print(json);
-			out.flush();
 			
 		}
 	}

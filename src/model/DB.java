@@ -30,7 +30,7 @@ public class DB {
 
 	public static int register(String name, String password) throws SQLException {
 		Connection conn = connect();
-		String sql = "insert into user(name,password) values(?,?)";
+		String sql = "call register(?, ?)";
 		PreparedStatement ps = conn.prepareStatement(sql);
 		ps.setString(1, name);
 		ps.setString(2, password);
@@ -156,7 +156,26 @@ public class DB {
 			return null;
 		}
 	}
-
+	//获取id的积分
+	public static int getCarrots(int pid) throws SQLException  {
+		Connection conn = connect();
+		String sql = "select carrots from user where id = ? ";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setInt(1, pid);
+		ResultSet rs = ps.executeQuery(); 
+		rs.next();
+		return rs.getInt("carrots");
+	}
+	// 改变积分
+	public static int getItemPrice(int item) throws SQLException  {
+		Connection conn = connect();
+		String sql = "select price from shop where id = ? ";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setInt(1, item);
+		ResultSet rs = ps.executeQuery(); 
+		rs.next();
+		return rs.getInt("price");
+	}
 	public static int changeCarrots(int pid, int quantity) throws SQLException {
 		Connection conn = connect();
 		String sql = "call changeCarrots(?, ?);";
@@ -189,7 +208,107 @@ public class DB {
 		}
 		return cardSkins;
 	}
-	public static void buy(int pid, int item) {
-		
+	public static int addItemToBag(int pid, int item) throws SQLException {
+		Connection conn = connect();
+		String sql = "call addItemToBag(?, ?);";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setInt(1, pid);
+		ps.setInt(2, item);
+		int result = ps.executeUpdate();
+		return result;
 	}
+	public static ArrayList<BagItem> getBagIcons(int pid) throws SQLException {
+		Connection conn = connect();
+		String sql = "select bag.id id, icon.name name, icon.file_name file_name from icon, bag where type=1 and icon.id=item_id and uid=?;";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setInt(1, pid);
+		ResultSet rs = ps.executeQuery();
+		ArrayList<BagItem> icons=new ArrayList<>();
+		while (rs.next()) {
+			icons.add(new BagItem(rs.getInt("id"), rs.getString("name"), "/PJ2/static/images/icon/"+rs.getString("file_name")));
+		}
+		return icons;
+	}
+	public static ArrayList<BagItem> getBagCardSkins(int pid) throws SQLException {
+		Connection conn = connect();
+		String sql = "select bag.id id, card_skin.name name, card_skin.file_name file_name from card_skin, bag where type=2 and card_skin.id=item_id and uid=?;";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setInt(1, pid);
+		ResultSet rs = ps.executeQuery();
+		ArrayList<BagItem> cardSkins=new ArrayList<>();
+		while (rs.next()) {
+			cardSkins.add(new BagItem(rs.getInt("id"), rs.getString("name"), "/PJ2/static/images/card_skin/"+rs.getString("file_name")));
+		}
+		return cardSkins;
+	}
+	
+	
+	public static boolean hasItem(int pid, int item) throws SQLException{
+		Connection conn = connect();
+		String sql = "call hasItem(?, ?);";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setInt(1, pid);
+		ps.setInt(2, item);
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public static boolean useItem(int pid, int item) throws SQLException{
+		Connection conn = connect();
+		String sql = "select * from bag where uid=? and id=?;";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setInt(1, pid);
+		ps.setInt(2, item);
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			int type=rs.getInt("type");
+			int itemId=rs.getInt("item_id");
+			switch (type) {
+			case 1:
+				setIcon(pid, itemId);
+				break;
+			case 2:
+				setCardSkin(pid, itemId);
+				break;
+			default:
+				break;
+			}
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public static int setIcon(int pid,int itemId) throws SQLException {
+		Connection conn = connect();
+		String sql = "update user set icon = ? where id = ? ";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setInt(1, itemId);
+		ps.setInt(2, pid);
+		return ps.executeUpdate();	
+	}
+	
+	public static int setCardSkin(int pid,int itemId) throws SQLException {
+		Connection conn = connect();
+		String sql = "update user set card_skin = ? where id = ? ";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setInt(1, itemId);
+		ps.setInt(2, pid);
+		return ps.executeUpdate();	
+	}
+	
+	public static boolean hasName(String name) throws SQLException {
+		Connection conn = connect();
+		String sql = "select id from user where name = ? ";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setString(1, name);
+		ResultSet rs = ps.executeQuery();
+		return rs.next();
+	}
+
+
 }

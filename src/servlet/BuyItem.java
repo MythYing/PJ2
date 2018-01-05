@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import javax.servlet.ServletException;
@@ -15,14 +16,14 @@ import model.DB;
 /**
  * Servlet implementation class Buy
  */
-@WebServlet("/Buy")
-public class Buy extends HttpServlet {
+@WebServlet("/BuyItem")
+public class BuyItem extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Buy() {
+    public BuyItem() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,14 +38,23 @@ public class Buy extends HttpServlet {
 		
 		int pid=(int) request.getSession().getAttribute("pid");
 		int item=Integer.valueOf(request.getParameter("item"));
-		int myCarrots=DB.getCarrots(pid);
-		int price=DB.getItemPrice(item);
-		if (myCarrots>=price) {
-			DB.changeCarrots(pid, -price);
-			DB.addItemToBag(pid, item);
+		
+		try {
+			int myCarrots = DB.getCarrots(pid);
+			int price=DB.getItemPrice(item);
+			if (myCarrots>=price && (!DB.hasItem(pid, item))) {
+				DB.changeCarrots(pid, -price);
+				DB.addItemToBag(pid, item);
+				out.print("Success");
+			}else {
+				out.print("Failed");
+			}
+			out.flush();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		out.print("Success");
-		out.flush();
+		
+		
 	}
 
 }

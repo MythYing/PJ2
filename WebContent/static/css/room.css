@@ -139,7 +139,6 @@ body{
 }
 #my-turn-module>button:hover {
     background-color: #265728;
-    font-size: 18px;
     transition: 0.2s;
     cursor: pointer;
     box-shadow:0px 0px 20px #000000;
@@ -200,6 +199,12 @@ table#result-table {
 h1 {
     text-align: center;
 }
+
+.carrots-change {
+    text-align: right;
+}
+
+
 button#game-result-OK {
     display: block;
     width: 120px;
@@ -212,4 +217,10 @@ button#game-result-OK {
     color: white;
     font-size: 16px;
     text-align: center;
+    cursor: pointer;
 }
+
+button#game-result-OK:hover {
+    background-color: rgba(245, 222, 179, 0.1);
+}
+

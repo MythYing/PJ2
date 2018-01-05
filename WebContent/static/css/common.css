@@ -10,3 +10,20 @@
     height: 0;
     clear: both;
 }
+
+#message-box-container{
+    position: absolute;
+    width: 100%;
+    top: 100px;
+}
+#message-box {
+    display: none;
+    z-index: 10;
+    width: 300px;
+    margin: 0 auto;
+    border-radius: 8px;
+    padding: 20px 60px;
+    background: rgba(255, 255, 255, 0.3);
+    text-shadow: 1px 1px 1px black;
+    color: wheat;
+}

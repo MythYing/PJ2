@@ -21,7 +21,7 @@
 	<header>
 		<div id="user-info">
 			<div id="icon">
-				<img src="/PJ2/static/images/icon/default.jpg" width="160px" height="160px">
+				<img src="" width="160px" height="160px">
 			</div>
 			<div id="name"></div>
 			<div id="carrots">胡萝卜: <span id="quantity"></span></div>
@@ -92,12 +92,12 @@
 		</div>
 		<div id="shop">
 			<h4>商店</h4>
-			<ul id="type">
+			<ul class="type">
 				<li id="icon" v-on:click="type='icon'" v-bind:class="{'type-click': type=='icon'}">图标</li>
 				<li id="card-skin" v-on:click="type='card-skin'" v-bind:class="{'type-click': type=='card-skin'}">卡片皮肤</li>
 			</ul>
-			<ul id="items">
-				<li v-for="item in items" v-bind:id="'item'+'-'+item.id">
+			<ul class="items">
+				<li v-for="item in items" v-bind:id="'shop-item'+'-'+item.id">
 					<img v-bind:src="item.fileName" v-bind:class="itemClass"><br>
 					<span>{{item.name}}</span><br>
 					<span>{{item.price}}</span>
@@ -107,18 +107,21 @@
 		</div>
 		<div id="bag">
 			<h4>背包</h4>
-			<ul id="type">
+			<ul class="type">
 					<li id="icon" v-on:click="type='icon'" v-bind:class="{'type-click': type=='icon'}">图标</li>
 					<li id="card-skin" v-on:click="type='card-skin'" v-bind:class="{'type-click': type=='card-skin'}">卡片皮肤</li>
 				</ul>
-				<ul id="items">
-					<li v-for="item in items" v-bind:id="'item'+'-'+item.id">
+				<ul class="items">
+					<li v-for="item in items" v-bind:id="'bag-item'+'-'+item.id">
 						<img v-bind:src="item.fileName" v-bind:class="itemClass"><br>
-						<span>{{item.name}}</span><br>
+						<span>{{item.name}}</span>
 						<button class="use">使用</button>
 					</li>
 				</ul>
 		</div>
+	</div>
+	<div id="message-box-container">
+		<div id="message-box"></div>
 	</div>
 </body>
 </html>
