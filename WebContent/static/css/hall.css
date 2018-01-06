@@ -245,6 +245,7 @@ td.time .begin-time {
     color: wheat;
     cursor: pointer;
     outline: none;
+    font-size: 10px;
 }
 .items button:hover {
     border: 1px solid goldenrod;
@@ -252,3 +253,28 @@ td.time .begin-time {
     color: white;
 }
 
+
+#rules {
+    display: none;
+    position: relative;
+    top: 200px;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    width: 760px;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+#rules p {
+    margin: 20px 0;
+}
+button#show-rules:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+button#show-rules {
+    top: 0px;
+    left: 1100px;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+}

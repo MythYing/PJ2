@@ -15,7 +15,6 @@ import javax.websocket.server.ServerEndpointConfig.Configurator;
 import com.google.gson.Gson;
 
 import model.Common;
-import model.Data;
 
 @ServerEndpoint(value="/RoomDataInform",configurator=RoomDataInform.class)
 public class RoomDataInform extends Configurator{

@@ -72,7 +72,11 @@ $(document).ready(function(){
 			}
 		}
 	});
-	$("#items").mCustomScrollbar({
+	$("#shop .items").mCustomScrollbar({
+		axis: "y",
+		theme: "inset"
+	});
+	$("#bag .items").mCustomScrollbar({
 		axis: "y",
 		theme: "inset"
 	});
@@ -84,7 +88,12 @@ $(document).ready(function(){
 		var index = $("nav>ul>li").index($(this));
 		$("#content>div").eq(index).show().siblings().hide();
 	})
-
+	// 规则
+	$("#show-rules").mouseenter(function(){
+		$("#rules").show();
+	}).mouseleave(function(){
+		$("#rules").hide();
+	})
 	//  寻找对局
 	$("#match-game").click(function(){
 		$.post("MatchGame",
