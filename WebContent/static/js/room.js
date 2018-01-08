@@ -11,7 +11,7 @@ $(document).ready(function () {
 	var websocket = null;
 	// 判断当前浏览器是否支持WebSocket
 	if ('WebSocket' in window && (!isListening)) {
-		websocket = new WebSocket("ws://localhost:8080/PJ2/RoomDataInform");
+		websocket = new WebSocket("ws://111.230.130.50:8080/PJ2/RoomDataInform");
 		isListening=true;
 	}
 	websocket.onopen = function(){}

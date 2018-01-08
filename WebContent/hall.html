@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="static/plugins/scroller/jquery.mCustomScrollbar.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 	<script src="static/js/lib/jquery.cookie.js"></script>
-	<script src="static/js/lib/vue.js"></script>
+	<script src="static/js/lib/vue.min.js"></script>
 	<script src="static/plugins/scroller/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script src="static/js/hall.js"></script>
 </head>
@@ -44,25 +44,21 @@
 			<button id="match-game">寻找对局</button>
 			<div id="rules">
 				<h3 style="text-align: center">PJ2游戏规则</h3>
-				<p>
-					参与人数：3人<br>
-					游戏道具：扑克牌一副（去掉大小王，三张2，一张A），每人16张牌<br>
-					出牌时间：30s，超过30s自动PASS<br>
-					输赢判断：先出完自己手中的牌为赢<br>
-					积分计算：赢家获得另外两家手中牌之和*100的积分，输家减少自己手中牌*100的积分<br>
-					牌由大到小：2、A、K、Q、J、10、9、8、7、6、5、4、3<br>
-				</p>	
-				<p>
-					<h4>牌型介绍：</h4>
-					单张：任意一张牌；<br>
-					对子：两张大小相同的牌；<br>
-					连对：两个或以上连续对子，如：5566。<br>
-					三带二：三张牌点相同的牌，最多带二张杂牌，不限单双，可以不带牌，如：55566、5557、555；<br>
-					四带三：与三带二类似，可以最多带三张杂牌，不做炸弹；<br>
-					飞机：两个或以上连续“三带二”，最多可以带n*2张杂牌如：5556667788，QQQKKK3899。<br>
-					顺子：五张或五张以上连续的单牌。例如：3456789,10JQKA等。<br>
-					炸弹：四张牌点相同的牌，如：6666、8888。
-				</p>
+				参与人数：3人<br>
+				游戏道具：扑克牌一副（去掉大小王，三张2，一张A），每人16张牌<br>
+				出牌时间：30s，超过30s自动PASS<br>
+				输赢判断：先出完自己手中的牌为赢<br>
+				积分计算：赢家获得另外两家手中牌之和*100的积分，输家减少自己手中牌*100的积分<br>
+				牌由大到小：2、A、K、Q、J、10、9、8、7、6、5、4、3<br>
+				<h4>牌型介绍：</h4>
+				单张：任意一张牌；<br>
+				对子：两张大小相同的牌；<br>
+				连对：两个或以上连续对子，如：5566。<br>
+				三带二：三张牌点相同的牌，最多带二张杂牌，不限单双，可以不带牌，如：55566、5557、555；<br>
+				四带三：与三带二类似，可以最多带三张杂牌，不做炸弹；<br>
+				飞机：两个或以上连续“三带二”，最多可以带n*2张杂牌如：5556667788，QQQKKK3899。<br>
+				顺子：五张或五张以上连续的单牌。例如：3456789,10JQKA等。<br>
+				炸弹：四张牌点相同的牌，如：6666、8888。
 			</div>
 		</div>
 		<div id="game-records">

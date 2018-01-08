@@ -246,6 +246,8 @@ td.time .begin-time {
     cursor: pointer;
     outline: none;
     font-size: 10px;
+    line-height: 16px;
+    height: 16px;
 }
 .items button:hover {
     border: 1px solid goldenrod;
@@ -265,9 +267,7 @@ td.time .begin-time {
     margin: 0 auto;
     border-radius: 10px;
 }
-#rules p {
-    margin: 20px 0;
-}
+
 button#show-rules:hover {
     background: rgba(0, 0, 0, 0.3);
 }
